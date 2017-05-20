@@ -1,4 +1,6 @@
 
+
+
 var x = "test";
 var y = "clicked again";
 var helloText = document.getElementById("hello-tag");
@@ -18,5 +20,9 @@ function functio() {
 }
 
 function loadFunction() {
+    var link = document.querySelector('link[rel="import"]');
+    var content = link.import;
 
+    var el = content.querySelector('.navbar');
+    document.getElementById("nav-placeholder").appendChild(el.cloneNode(true));
 }
