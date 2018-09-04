@@ -4,18 +4,22 @@
     <title>My website</title>
     <link rel="stylesheet" type="text/css" href="css/navbar.css" />
 </head>
-<body onload="loadNavbar()">
+<body onload="loadFunction()">
     <link rel="import" href="navbar.html" />
     <div id="nav-placeholder"></div>
 
+    <div class="navbar">
+        <div class="navbar-button" id="navbar-home"><a href="index.html"><span class="navbar-button-span"></span></a>Home</div>
+        <div class="navbar-button" id="navbar-projects"><a href="projects.html"><span class="navbar-button-span"></span></a>Projects</div>
+        <div class="navbar-button" id="navbar-contact">Contact</div>
+        <div class="navbar-button" id="navbar-help">Help</div>
+    </div>
 
     <div>THESE ARE MY PROJECTS</div>
     <br />
     <div id="links"><a href="lightbulb.html">Lightbulb</a></div>
 
-
     <!-- Load scripts at the end of a page -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/scripts.js"></script>
 </body>
 </html>
