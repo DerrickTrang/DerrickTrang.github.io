@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/lightbulb.css" />
-    <title>Some practice with a lightbulb</title>
+    <link rel="stylesheet" type="text/css" href="css/hourglass.css" />
+    <title>A flippable hourglass</title>
 </head>
 <body>
-    <div id="lightbulb" >
-        <img src="img/lightbulb_off.png" />
+    
+    <div class="flexContainer">
+        <div class="flexDiv" id="startButton" onclick="startTimer()">Start</div>
+        <div class="flexDiv" id="pauseButton" onclick="pauseTimer()">Pause</div>
+        <div class="flexDiv" id="resumeButton" onclick="resumeTimer()">Resume</div>
+        <div class="flexDiv" id="resetButton" onclick="resetTimer()">Reset</div>
+        <div class="flexDiv" id="flipButton" onclick="flipTimer()">Flip</div>
     </div>
-    <div id="burntOutAlert"></div>
-    <script src="js/lightbulb.js"></script>
+
+    <!-- Where the time will be displayed -->
+    <div class="flexDiv" id="hourglass"></div>
+
+    <!-- Load scripts at the end of page -->
+    <script src="js/hourglass.js" onclick="flipTimer()"></script>
 </body>
 
 </html>
