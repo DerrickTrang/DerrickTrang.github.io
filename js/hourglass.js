@@ -96,6 +96,8 @@ function init() {
     countdownStart = 60000; // countdown from 60000 ms (let user edit this later)
     countdownElapsed = 0; // total amount of time that has elapsed\
     countdownDelta = 0;
+    currentState = 0;
+    lastState = 0;
 
     // Retrieve all document elements
     startButtonA = document.getElementById('startButtonA');
