@@ -5,18 +5,21 @@
     <title>A flippable hourglass</title>
 </head>
 <body>
-    
-    <div class="flexContainer">
-        <div class="flexDiv" id="startButton" onclick="startTimer()">Start</div>
-        <div class="flexDiv" id="pauseButton" onclick="pauseTimer()">Pause</div>
-        <div class="flexDiv" id="resumeButton" onclick="resumeTimer()">Resume</div>
-        <div class="flexDiv" id="resetButton" onclick="resetTimer()">Reset</div>
-        <div class="flexDiv" id="flipButton" onclick="flipTimer()">Flip</div>
+    <div class="content">
+        <div class="buttonContainer">
+            <div class="button" id="startButtonA" style="background-color:orangered">Start</div>
+            <div class="button" id="startButtonB" style="background-color:dodgerblue">Start</div>
+            <div class="button" id="pauseButton">Pause</div>
+            <div class="button" id="resumeButton">Resume</div>
+            <div class="button" id="resetButton">Reset</div>
+            <div class="button" id="flipButton">Flip</div>
+        </div>
+
+        <!-- Where the time will be displayed -->
+        <div class="hourglassContainer" id="hourglassContainer">
+            <div class="hourglass" id="hourglass"></div>
+        </div>
     </div>
-
-    <!-- Where the time will be displayed -->
-    <div class="flexDiv" id="hourglass"></div>
-
     <!-- Load scripts at the end of page -->
     <script src="js/hourglass.js" onclick="flipTimer()"></script>
 </body>
