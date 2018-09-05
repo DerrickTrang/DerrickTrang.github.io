@@ -8,6 +8,8 @@
     
     width: 100%;
     height: 50px;
+
+    font-family: Arial, 'Times New Roman';
 }
 
 .navbar-button, .navbar-button-first {
