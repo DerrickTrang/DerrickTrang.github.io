@@ -15,6 +15,8 @@ var resetButton;
 var flipButton;
 var hourglass;
 
+var buzzer = new Audio("audio/Air_Horn.mp3");
+
 var colorA = "dodgerblue";
 var backgroundA = "skyblue";
 var colorB = "orangered";
@@ -26,6 +28,7 @@ function showTimerValue() {
     if (countdownStart - countdownElapsed - countdownDelta <= 0) {
         console.log("Expired!");
         hourglass.innerHTML = formatTime(0);
+        buzzer.play();
         clearInterval(objInterval);
         changeState(4);
     } else {
@@ -97,6 +100,18 @@ function flipTimer() {
     }    
 }
 
+function changeTimer() {
+    var sec = prompt("Enter the hourglass time in seconds:", "60");
+    if (sec != null) {
+        countdownStart = parseInt(sec) * 1000;
+    } else {
+        // Defaulted to 60 seconds
+        countdownStart = 60000;
+    }
+    console.log("countdownStart = " + countdownStart)
+    hourglass.innerHTML = formatTime(countdownStart);
+}
+
 function init() {
     countdownStart = 60000; // countdown from 60000 ms (let user edit this later)
     countdownElapsed = 0; // total amount of time that has elapsed\
@@ -121,6 +136,7 @@ function init() {
     resumeButton.addEventListener("click", resumeTimer);
     resetButton.addEventListener("click", resetTimer);
     flipButton.addEventListener("click", flipTimer);
+    hourglass.addEventListener("click", changeTimer);
 
     // initialize colors
     startButtonA.style.backgroundColor = colorA;
