@@ -15,6 +15,11 @@ var resetButton;
 var flipButton;
 var hourglass;
 
+var colorA = "dodgerblue";
+var backgroundA = "skyblue";
+var colorB = "orangered";
+var backgroundB = "coral";
+
 function showTimerValue() {
     
     countdownDelta = Date.now() - startDate;
@@ -117,6 +122,10 @@ function init() {
     resetButton.addEventListener("click", resetTimer);
     flipButton.addEventListener("click", flipTimer);
 
+    // initialize colors
+    startButtonA.style.backgroundColor = colorA;
+    startButtonB.style.backgroundColor = colorB;
+
     hourglass.innerHTML = formatTime(countdownStart);
     
     changeState(0);
@@ -150,10 +159,10 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
-            flipButton.style.backgroundColor = "dodgerblue"
+            flipButton.style.backgroundColor = colorA;
 
-            hourglassContainer.style.backgroundColor = "coral";
-            hourglass.style.backgroundColor = "orangered";
+            hourglass.style.backgroundColor = colorB;
+            hourglassContainer.style.backgroundColor = backgroundB;
             break;
         case 2:
             // In progress B
@@ -165,10 +174,10 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
-            flipButton.style.backgroundColor = "orangered"
+            flipButton.style.backgroundColor = colorB;
 
-            hourglassContainer.style.backgroundColor = "skyblue";
-            hourglass.style.backgroundColor = "dodgerblue";
+            hourglass.style.backgroundColor = colorA;
+            hourglassContainer.style.backgroundColor = backgroundA;
             break;
         case 3:
             // Stopped
