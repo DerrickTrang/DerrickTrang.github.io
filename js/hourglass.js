@@ -1,8 +1,8 @@
 var objInterval;
 
-var countdownStart = 60000; // countdown from 60000 ms (let user edit this later)
-var countdownElapsed = 0; // total amount of time that has elapsed\
-var countdownDelta = 0;
+var countdownStart; // countdown from 60000 ms (let user edit this later)
+var countdownElapsed; // total amount of time that has elapsed\
+var countdownDelta;
 var startDate;
 var currentState;
 var lastState;
@@ -136,8 +136,7 @@ function init() {
     resumeButton.addEventListener("click", resumeTimer);
     resetButton.addEventListener("click", resetTimer);
     flipButton.addEventListener("click", flipTimer);
-    hourglass.addEventListener("click", changeTimer);
-
+    
     // initialize colors
     startButtonA.style.backgroundColor = colorA;
     startButtonB.style.backgroundColor = colorB;
@@ -151,6 +150,24 @@ function changeState(state) {
     // Use this function to update various parameters and functions
     currentState = state;
     console.log("changing state to: " + state);
+    // Update event listeners on timer
+    hourglass.removeEventListener("click", pauseTimer);
+    hourglass.removeEventListener("click", changeTimer);
+    switch (state) {
+        case 0:
+            hourglass.addEventListener("click", changeTimer);
+            break;
+        case 1:
+            hourglass.addEventListener("click", pauseTimer);
+            break;
+        case 2:
+            hourglass.addEventListener("click", pauseTimer);
+            break;
+        default:
+            break;
+    }
+
+    // Update buttons and colors
     switch (state) {
         case 0:
             // Start
@@ -175,10 +192,10 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
-            flipButton.style.backgroundColor = colorA;
+            flipButton.style.backgroundColor = colorB;
 
-            hourglass.style.backgroundColor = colorB;
-            hourglassContainer.style.backgroundColor = backgroundB;
+            hourglass.style.backgroundColor = colorA;
+            hourglassContainer.style.backgroundColor = backgroundA;
             break;
         case 2:
             // In progress B
@@ -190,10 +207,10 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
-            flipButton.style.backgroundColor = colorB;
+            flipButton.style.backgroundColor = colorA;
 
-            hourglass.style.backgroundColor = colorA;
-            hourglassContainer.style.backgroundColor = backgroundA;
+            hourglass.style.backgroundColor = colorB;
+            hourglassContainer.style.backgroundColor = backgroundB;
             break;
         case 3:
             // Stopped
