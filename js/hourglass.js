@@ -1,19 +1,22 @@
 var objInterval;
 
-var countdownStart; // countdown from 60000 ms (let user edit this later)
-var countdownElapsed; // total amount of time that has elapsed\
+var countdownStart;
+var countdownElapsed;
 var countdownDelta;
 var startDate;
 var currentState;
 var lastState;
 
+var showHelpStart = 1;
+var showHelpDuring = 1;
+
 var startButtonA;
 var startButtonB;
-var pauseButton;
 var resumeButton;
 var resetButton;
 var flipButton;
 var hourglass;
+var hourglassHelp;
 
 var buzzer = new Audio("audio/Air_Horn.mp3");
 
@@ -34,6 +37,10 @@ function showTimerValue() {
     } else {
         hourglass.innerHTML = formatTime(countdownStart - countdownElapsed - countdownDelta);
     }
+}
+
+function hideHelp() {
+    hourglassHelp.style.display = 'none';
 }
 
 function startTimerA() {
@@ -122,20 +129,20 @@ function init() {
     // Retrieve all document elements
     startButtonA = document.getElementById('startButtonA');
     startButtonB = document.getElementById('startButtonB');
-    pauseButton = document.getElementById('pauseButton');
     resumeButton = document.getElementById('resumeButton');
     resetButton = document.getElementById('resetButton');
     flipButton = document.getElementById('flipButton');
     hourglassContainer = document.getElementById('hourglassContainer');
     hourglass = document.getElementById('hourglass');
+    hourglassHelp = document.getElementById('hourglassHelp');
 
     // Set event listeners
     startButtonA.addEventListener("click", startTimerA);
     startButtonB.addEventListener("click", startTimerB);
-    pauseButton.addEventListener("click", pauseTimer);
     resumeButton.addEventListener("click", resumeTimer);
     resetButton.addEventListener("click", resetTimer);
     flipButton.addEventListener("click", flipTimer);
+    hourglassHelp.addEventListener("click", hideHelp);
     
     // initialize colors
     startButtonA.style.backgroundColor = colorA;
@@ -174,7 +181,6 @@ function changeState(state) {
             console.log("start state");
             startButtonA.style.display = 'block';
             startButtonB.style.display = 'block';
-            pauseButton.style.display = 'none';
             resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
@@ -187,7 +193,6 @@ function changeState(state) {
             console.log("in progress state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            pauseButton.style.display = 'block';
             resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
@@ -202,7 +207,6 @@ function changeState(state) {
             console.log("in progress state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            pauseButton.style.display = 'block';
             resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
@@ -217,7 +221,6 @@ function changeState(state) {
             console.log("stopped state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            pauseButton.style.display = 'none';
             resumeButton.style.display = 'block';
             resetButton.style.display = 'block';
             flipButton.style.display = 'none';
@@ -228,7 +231,6 @@ function changeState(state) {
             console.log("expired state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            pauseButton.style.display = 'none';
             resumeButton.style.display = 'none';
             resetButton.style.display = 'block';
             flipButton.style.display = 'none';
@@ -240,7 +242,6 @@ function changeState(state) {
             // default is start
             startButtonA.style.display = 'block';
             startButtonB.style.display = 'block';
-            pauseButton.style.display = 'none';
             resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
