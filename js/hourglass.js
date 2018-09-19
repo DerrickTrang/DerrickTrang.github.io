@@ -12,7 +12,6 @@ var showHelpDuring = 1;
 
 var startButtonA;
 var startButtonB;
-var resumeButton;
 var resetButton;
 var flipButton;
 var hourglass;
@@ -129,7 +128,6 @@ function init() {
     // Retrieve all document elements
     startButtonA = document.getElementById('startButtonA');
     startButtonB = document.getElementById('startButtonB');
-    resumeButton = document.getElementById('resumeButton');
     resetButton = document.getElementById('resetButton');
     flipButton = document.getElementById('flipButton');
     hourglassContainer = document.getElementById('hourglassContainer');
@@ -139,7 +137,6 @@ function init() {
     // Set event listeners
     startButtonA.addEventListener("click", startTimerA);
     startButtonB.addEventListener("click", startTimerB);
-    resumeButton.addEventListener("click", resumeTimer);
     resetButton.addEventListener("click", resetTimer);
     flipButton.addEventListener("click", flipTimer);
     hourglassHelp.addEventListener("click", hideHelp);
@@ -159,6 +156,7 @@ function changeState(state) {
     console.log("changing state to: " + state);
     // Update event listeners on timer
     hourglass.removeEventListener("click", pauseTimer);
+    hourglass.removeEventListener("click", resumeTimer);
     hourglass.removeEventListener("click", changeTimer);
     switch (state) {
         case 0:
@@ -169,6 +167,9 @@ function changeState(state) {
             break;
         case 2:
             hourglass.addEventListener("click", pauseTimer);
+            break;
+        case 3:
+            hourglass.addEventListener("click", resumeTimer);
             break;
         default:
             break;
@@ -181,7 +182,6 @@ function changeState(state) {
             console.log("start state");
             startButtonA.style.display = 'block';
             startButtonB.style.display = 'block';
-            resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
 
@@ -193,7 +193,6 @@ function changeState(state) {
             console.log("in progress state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
@@ -207,7 +206,6 @@ function changeState(state) {
             console.log("in progress state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'block';
 
@@ -221,7 +219,6 @@ function changeState(state) {
             console.log("stopped state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resumeButton.style.display = 'block';
             resetButton.style.display = 'block';
             flipButton.style.display = 'none';
 
@@ -231,7 +228,6 @@ function changeState(state) {
             console.log("expired state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resumeButton.style.display = 'none';
             resetButton.style.display = 'block';
             flipButton.style.display = 'none';
 
@@ -242,7 +238,6 @@ function changeState(state) {
             // default is start
             startButtonA.style.display = 'block';
             startButtonB.style.display = 'block';
-            resumeButton.style.display = 'none';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
 
