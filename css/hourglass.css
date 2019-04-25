@@ -14,21 +14,27 @@ html, body {
 }
 
 .buttonContainer {
-    width: 100%;
-    height: 50%;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 50%;    
     flex-wrap: nowrap;
-    flex-grow: 1;
 }
 
 .button {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    
     width: 100%;
     height: 100%;
-    line-height: 225%;
-    border: solid;
-    display: block;
-    font-size: 125px;
-    text-align: center;
+    border: solid;    
+    font-size: 125px;    
+    user-select: none;
+    margin: auto;
 }
 
 .hourglassContainer {
@@ -40,7 +46,6 @@ html, body {
     flex-wrap: nowrap;
     flex-grow: 1;
 }
-
 
 .hourglass {
     width: 100%;

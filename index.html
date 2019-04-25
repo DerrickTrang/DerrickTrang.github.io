@@ -4,11 +4,18 @@
     <title>derrick trang's .com</title>
     <link rel="stylesheet" type="text/css" href="css/navbar.css" />
 </head>
-<body onload="loadNavbar()">
-    <link rel="import" href="navbar.html" />
-    <div id="nav-placeholder"></div>
-
-    <div>PLACEHOLDER TEXT.</div>
+<body>
+    <div class="page-container">
+        <div class="navbar">
+            <div class="navbar-button" id="navbar-home"><a href="index.html"><span class="navbar-button-span"></span></a>Home</div>
+            <div class="navbar-button" id="navbar-projects"><a href="projects.html"><span class="navbar-button-span"></span></a>Projects</div>
+        </div>
+        <div class="content-container">
+            <div class="content">
+                <div>Experimenting with web stuff in my free time!</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Load scripts at the end of a page -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
