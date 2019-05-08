@@ -1,97 +1,155 @@
 html {
+    width: 100%;
     height: 100%;
-    background: yellow;
-    font-family: Arial;
+
+    background: black;
+    font-family: 'Muli', 'Arial', 'Times New Roman';
 }
 
 body {
+    width:100%;
+    height: 100%;
+
     display: flex;
-    background-color: green;
-    background-image: linear-gradient(to bottom right, cyan, purple);
     align-items: center;
     justify-content: center;
-    height: 100%;
+        
     margin: 0;
+    font-size: 125%;
+
+    background-color: green;
+    background-image: linear-gradient(to bottom right, cyan, purple);
 }
 
 .page-container {
+    width: 95%;
+    height: 95%;
+
     display: flex;
-    width: 90%;
-    height: 90%;
-    background: white;
     flex-direction: column;
     align-items: center;
+
+    background: white;
 }
 
 .content-container {
-    display: flex;
     width: 100%;
     height: 100%;
-    background: white;
+    
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 .content {
-    display: flex;
     width: 95%;
-    height: 95%;
-    background: white;
+    height: 90%;
+
+    display: flex;
     flex-direction: column;
 }
 
 .navbar {
-    background-color: lightcyan;
-
-    border-bottom: 1px solid;
-    border-top: 1px solid;
-    border-color: white;
-        
-    
     width: 100%;
-    height: 50px;
+    height: 4em;
 
-    font-family: Arial, 'Times New Roman';
+    display: flex;
+    flex-direction: row;
+    
+    font-family: 'Muli', 'Arial', 'Times New Roman';
 }
 
-.navbar-button, .navbar-button-first {
-    background-color: mediumslateblue;
-    box-sizing: border-box;
-    border-left:  2px solid;
-    border-right: 2px solid;
-    border-color: lightcyan;
 
-    font-family: Arial, 'Times New Roman';
-    font-size: 2em;
-    color: white;
-    text-align: center;
+.navbar-button {
+    width: 50%;
+    height: 2em;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 
-    width: 50%;
-    line-height: 50px;
+    box-sizing: border-box;
 
-    float: left;
+    background-color: mediumslateblue;
+    color: white;
+    text-align: center;
+    font-size: 2em;
 
-    transition: background-color linear 200ms;
+    transition: background-color linear 150ms;
 }
-
-.navbar-button-first {
-    margin-left: 0%;
-}
-
 
 .navbar-button:hover {
     background-color: slateblue;
-    transition: background-color linear 200ms;
+    transition: background-color linear 150ms;
 }
 
 .navbar-button-span {
-    position: absolute;
     width: 100%;
     height: 100%;
+
+    position: absolute;
+    
     top: 0;
     left: 0;
     z-index: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar {
+        height: 7em;
+
+        flex-direction: column;        
+    }
+    .navbar-button {
+        width: 100%;
+
+        font-size: 2.10em;
+    }
+}
+
+
+.image-container {
+    width: 100%;
+    flex-grow: 1;
+    background: url(../img/sealbro.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 600px) {
+    .image-container {
+        background-position: 40%;
+    }
+}
+
+
+
+.project-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.project-container > a {
+    width: 100%;
+    text-decoration: none;
+}
+
+.project-container > a > div{
+    width: 100%;
+    height: 3em;
+
+    display: flex;
+    align-items: center;
+    
+    text-indent: 1em;
+    color: black;
+}
+
+.project-container > a > div:hover {
+    background-color: paleturquoise;
+    transition: background-color linear 150ms;
 }
