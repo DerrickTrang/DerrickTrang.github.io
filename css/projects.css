@@ -1,0 +1,33 @@
+@import "navbar.css";
+
+.project-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+.project-container > a {
+    width: 100%;
+    text-decoration: none;
+}
+
+.project-container > a > div{
+    width: auto;
+    height: auto;
+    
+    display: block;
+        
+    color: black;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.project-container > a > div:hover {
+    background-color: paleturquoise;
+    transition: background-color linear 150ms;
+}

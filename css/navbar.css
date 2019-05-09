@@ -2,7 +2,6 @@ html {
     width: 100%;
     height: 100%;
 
-    background: black;
     font-family: 'Muli', 'Arial', 'Times New Roman';
 }
 
@@ -16,11 +15,8 @@ body {
         
     margin: 0;
 
-    background-color: green;
     background-image: linear-gradient(to bottom right, cyan, purple);
 }
-
-
 
 .page-container {
     width: 95%;
@@ -45,6 +41,15 @@ body {
     font-size: 1.25em;
 }
 
+.content {
+    width: 95%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
 @media only screen and (max-width: 600px) {
     .page-container {
         height: 97%;
@@ -55,14 +60,8 @@ body {
     }                
 }
 
-.content {
-    width: 95%;
-    height: 90%;
 
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-}
+/* --- Navigation bar styling --- */
 
 .navbar {
     width: 100%;
@@ -120,52 +119,4 @@ body {
     .navbar-button {
         width: 100%;
     }
-}
-
-
-.image-container {
-    width: 100%;
-    flex-grow: 1;
-    background: url(../img/sealbro.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-
-@media only screen and (max-width: 600px) {
-    .image-container {
-        background-position: 40%;
-    }
-}
-
-
-
-.project-container {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-}
-
-.project-container > a {
-    width: 100%;
-    text-decoration: none;
-}
-
-.project-container > a > div{
-    width: auto;
-    height: auto;
-    
-    display: block;
-        
-    color: black;
-    padding-left: 1em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-}
-
-.project-container > a > div:hover {
-    background-color: paleturquoise;
-    transition: background-color linear 150ms;
 }

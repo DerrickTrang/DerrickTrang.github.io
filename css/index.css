@@ -1,0 +1,15 @@
+@import "navbar.css";
+
+.image-container {
+    width: 100%;
+    flex-grow: 1;
+    background: url(../img/sealbro.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 600px) {
+    .image-container {
+        background-position: 40%;
+    }
+}

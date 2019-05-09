@@ -51,7 +51,7 @@ html, body {
 .hourglass {
     width: 100%;
     margin: auto;
-    font-size: 14em;
+    font-size: 15em;
     text-align: center;
 }
 
@@ -62,20 +62,20 @@ html, body {
     border: solid;
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1000px) {
     .button {
-        font-size: 5em;
+        font-size: 5.5em;
     }
     .hourglass {
-        font-size: 7em;
+        font-size: 10em;
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 650px) {
     .button {
-        font-size: 4em;
+        font-size: 4.5em;
     }
     .hourglass {
-        font-size: 5.5em;
+        font-size: 6em;
     }
 }
