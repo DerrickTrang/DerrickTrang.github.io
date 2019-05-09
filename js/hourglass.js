@@ -180,8 +180,8 @@ function changeState(state) {
         case 0:
             // Start
             console.log("start state");
-            startButtonA.style.display = 'block';
-            startButtonB.style.display = 'block';
+            startButtonA.style.display = 'flex';
+            startButtonB.style.display = 'flex';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
 
@@ -194,7 +194,7 @@ function changeState(state) {
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
             resetButton.style.display = 'none';
-            flipButton.style.display = 'block';
+            flipButton.style.display = 'flex';
 
             flipButton.style.backgroundColor = colorB;
 
@@ -207,7 +207,7 @@ function changeState(state) {
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
             resetButton.style.display = 'none';
-            flipButton.style.display = 'block';
+            flipButton.style.display = 'flex';
 
             flipButton.style.backgroundColor = colorA;
 
@@ -219,7 +219,7 @@ function changeState(state) {
             console.log("stopped state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resetButton.style.display = 'block';
+            resetButton.style.display = 'flex';
             flipButton.style.display = 'none';
 
             break;
@@ -228,7 +228,7 @@ function changeState(state) {
             console.log("expired state");
             startButtonA.style.display = 'none';
             startButtonB.style.display = 'none';
-            resetButton.style.display = 'block';
+            resetButton.style.display = 'flex';
             flipButton.style.display = 'none';
 
             hourglassContainer.style.backgroundColor = "black";
@@ -236,8 +236,8 @@ function changeState(state) {
             break;
         default:
             // default is start
-            startButtonA.style.display = 'block';
-            startButtonB.style.display = 'block';
+            startButtonA.style.display = 'flex';
+            startButtonB.style.display = 'flex';
             resetButton.style.display = 'none';
             flipButton.style.display = 'none';
 
