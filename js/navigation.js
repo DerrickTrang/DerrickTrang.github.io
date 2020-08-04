@@ -1,5 +1,5 @@
-var homeURL = "/index2.html";
-var projectsURL = "/projects2.html";
+var homeURL = "/index.html";
+var projectsURL = "/projects.html";
 var debugHomeURL = "../DerrickTrang.github.io/index2.html";
 var debugProjectsURL = "../DerrickTrang.github.io/projects2.html";
 
