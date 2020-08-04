@@ -48,6 +48,21 @@ body {
     display: flex;
     flex-direction: column;
     align-content: space-between;
+
+    opacity: 0;
+    transition: background-color linear 150ms, opacity 200ms ease-in-out;
+}
+
+.contentloaded {
+    width: 95%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+
+    opacity: 1;
+    transition: background-color linear 150ms, opacity 200ms ease-in-out;
 }
 
 @media only screen and (max-width: 600px) {
@@ -72,7 +87,6 @@ body {
     
     font-family: 'Muli', 'Arial', 'Times New Roman';
 }
-
 
 .navbar-button {
     width: 50%;
