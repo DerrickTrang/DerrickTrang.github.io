@@ -33,7 +33,9 @@ function loadContent(url) {
     request.onreadystatechange = function() {
         if(request.readyState == 4) {
             console.log("response received");
-            document.getElementById("body-content").innerHTML = request.responseText;                        
+            document.open();
+            document.write(request.responseText);
+            document.close();
         }        
     }
 
