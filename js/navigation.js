@@ -42,9 +42,10 @@ function loadContent(url){
 
             // Fade out existing stuff with jquery
             jQuery("#body-content").fadeOut(200, function() {
-                // Replace current page body content with response body content            
-                console.log("Response body content: " + resp.getElementById("body-content").innerHTML);
-                document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;         
+                // Replace current page body title/content with response body title/content            
+                document.title = resp.getElementsByTagName("title")[0].innerHTML;
+                
+                document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;                         
 
                 // Fade new stuff in
                 jQuery("#body-content").fadeIn(200, null);
