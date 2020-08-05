@@ -24,13 +24,15 @@ function loadContent(url) {
             console.log("Response stored: " + resp.innerHTML.substring(0, 10));
 
             // Disable existing stylesheets from current page
-            var style = document.styleSheets
+            var style = document.styleSheets;
+            console.log("Stylesheet length: " + style.length);
             for (i = 0; i < style.length; i++) {
                 style[i].disabled = true;
             }
 
             // Remove existing stylesheets from current page
             var styleElements = document.getElementsByTagName("link");
+            console.log("Stylesheetelements length: " + styleElements.length);
             for (i = 0; i < styleElements.length; i++) {
                 var parent = styleElements[i].parentNode;
                 parent.removeChild(styleElements[i]);
@@ -38,7 +40,7 @@ function loadContent(url) {
 
             // Add stylesheets from response to current page head (may be a better way to handle all this?)
             var currentHead = document.getElementsByTagName('head')[0];            
-            var responseLinks = resp.getElementsByTagName('link')
+            var responseLinks = resp.getElementsByTagName('link');
             for (i = 0; i < this.responseLinks.length; i++) {
                 console.log("Response link: " + i);
                 currentHead.appendChild(responseLinks[i]);
@@ -50,7 +52,7 @@ function loadContent(url) {
         }        
     }
 
-    console.log("URL: " + url)
+    console.log("URL: " + url);
     request.open("GET", url);
     request.send();
 }
