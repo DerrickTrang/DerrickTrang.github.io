@@ -1,17 +1,7 @@
 var homeURL = "/index.html";
 var projectsURL = "/projects.html";
 
-document.getElementById("navbar-home").addEventListener("click", function() {    
-    history.pushState({ urlPath: homeURL}, "", homeURL);
-    loadContent(homeURL);
-});
-
-document.getElementById("navbar-projects").addEventListener("click", function() {
-    history.pushState({ urlPath: projectsURL}, "", projectsURL);
-    loadContent(projectsURL);
-});
-
-function loadContent(url) {
+function loadContent(url){
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function() {
@@ -19,11 +9,12 @@ function loadContent(url) {
             console.log("Response received: " + request.responseText.substring(0, 10));
 
             // Retrieve and store response
-            var resp = document.implementation.createHTMLDocument().body;
-            resp.innerHTML = request.responseText;
+            var resp = document.implementation.createHTMLDocument();
+            resp.body.innerHTML = request.responseText;
 
-            console.log("Response stored: " + resp.innerHTML.substring(0, 10));
+            console.log("Response stored: " + resp.body.innerHTML.substring(0, 10));            
 
+            /*
             // Disable existing stylesheets from current page
             var style = document.styleSheets;
             console.log("Stylesheet length: " + style.length);
@@ -38,6 +29,7 @@ function loadContent(url) {
                 var parent = styleElements[i].parentNode;
                 parent.removeChild(styleElements[i]);
             }
+            */
 
             // Add stylesheets from response to current page head (may be a better way to handle all this?)
             var currentHead = document.getElementsByTagName('head')[0];            
@@ -48,9 +40,15 @@ function loadContent(url) {
                 currentHead.appendChild(responseLinks[i]);
             }
 
-            // Replace current page body content with response body content            
-            console.log("Response body content: " + resp.getElementById("body-content").innerHTML);
-            document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;            
+            // Fade out existing stuff with jquery
+            jQuery("#body-content").fadeOut(200, function() {
+                // Replace current page body content with response body content            
+                console.log("Response body content: " + resp.getElementById("body-content").innerHTML);
+                document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;         
+
+                // Fade new stuff in
+                jQuery("#body-content").fadeIn(200, null);
+            });
         }        
     }
 
@@ -59,11 +57,18 @@ function loadContent(url) {
     request.send();
 }
 
-window.onload = function() {
-    // Fade body content in when in changes
-    document.getElementById("body-content").className = "contentloaded";
+document.getElementById("navbar-home").addEventListener("click", function() {    
+    history.pushState({ urlPath: homeURL}, "", homeURL);
+    loadContent(homeURL);
+});
 
-    // Fade entire page in once loaded
+document.getElementById("navbar-projects").addEventListener("click", function() {
+    history.pushState({ urlPath: projectsURL}, "", projectsURL);
+    loadContent(projectsURL);    
+});
+
+window.onload = function() {
+    // Fade entire page in once loaded by hiding overlay div
     document.getElementsByClassName("overlay")[0].style.opacity = 0;    
 }
 
