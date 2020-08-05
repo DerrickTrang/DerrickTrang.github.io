@@ -1,30 +1,14 @@
 var homeURL = "/index.html";
 var projectsURL = "/projects.html";
-var debugHomeURL = "../DerrickTrang.github.io/index2.html";
-var debugProjectsURL = "../DerrickTrang.github.io/projects2.html";
 
-document.getElementById("navbar-home").addEventListener("click", function() {
-    console.log("home link clicked");
-    
-    if ((window.location.href).substring(0, 4) == "file") {
-        history.pushState({urlPath: homeURL}, "", "#/index2.html"); // for debugging purposes
-        loadContent(debugHomeURL);
-    } else {
-        history.pushState({ urlPath: homeURL}, "", homeURL);
-        loadContent(homeURL);
-    }
+document.getElementById("navbar-home").addEventListener("click", function() {    
+    history.pushState({ urlPath: homeURL}, "", homeURL);
+    loadContent(homeURL);
 });
 
 document.getElementById("navbar-projects").addEventListener("click", function() {
-    console.log("project link clicked");
-    
-    if ((window.location.href).substring(0, 4) == "file") {
-        history.pushState({urlPath: projectsURL}, "", "#/projects.html"); // for debugging purposes
-        loadContent(debugProjectsURL);
-    } else {
-        history.pushState({ urlPath: projectsURL}, "", projectsURL);
-        loadContent(projectsURL);
-    }
+    history.pushState({ urlPath: projectsURL}, "", projectsURL);
+    loadContent(projectsURL);
 });
 
 function loadContent(url) {
@@ -32,10 +16,33 @@ function loadContent(url) {
 
     request.onreadystatechange = function() {
         if(request.readyState == 4) {
-            console.log("response received");
-            document.open();
-            document.write(request.responseText);
-            document.close();
+
+            // Retrieve and store response
+            var resp = document.createElement("html");
+            resp.innerHTML = request.responseText;
+
+            // Disable existing stylesheets from current page
+            var style = document.styleSheets
+            for (i = 0; i < style.length; i++) {
+                style[i].disabled = true;
+            }
+
+            // Remove existing stylesheets from current page
+            var styleElements = document.getElementsByTagName("link");
+            for (i = 0; i < styleElements.length; i++) {
+                var parent = styleElements[i].parentNode;
+                parent.removeChild(styleElements[i]);
+            }
+
+            // Add stylesheets from response to current page head (may be a better way to handle all this?)
+            var currentHead = document.getElementsByTagName('head')[0];            
+            var responseCSS = resp.getElementsByTagName('link')
+            for (i = 0; i < this.responseCSS.length; i++) {
+                currentHead.appendChild(responseCSS[i]);
+            }
+
+            // Replace current page body content with response body content
+            document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;            
         }        
     }
 
@@ -45,5 +52,15 @@ function loadContent(url) {
 }
 
 window.onload = function() {
+    // Fade body content in when in changes
     document.getElementById("body-content").className = "contentloaded";
+
+    // Fade entire page in once loaded
+    document.getElementsByClassName("overlay")[0].style.opacity = 0;    
+}
+
+window.onpopstate = function(event) {
+    if(event.state) {
+        loadContent(location.pathname.replace(/^.*[\\/]/, ""));
+    }    
 }
