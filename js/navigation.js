@@ -16,10 +16,12 @@ function loadContent(url) {
 
     request.onreadystatechange = function() {
         if(request.readyState == 4) {
+            console.log("Response received: " + request.responseText.substring(0, 10));
 
             // Retrieve and store response
             var resp = document.createElement("html");
             resp.innerHTML = request.responseText;
+            console.log("Response stored: " + resp.innerHTML.substring(0, 10));
 
             // Disable existing stylesheets from current page
             var style = document.styleSheets
@@ -36,12 +38,14 @@ function loadContent(url) {
 
             // Add stylesheets from response to current page head (may be a better way to handle all this?)
             var currentHead = document.getElementsByTagName('head')[0];            
-            var responseCSS = resp.getElementsByTagName('link')
-            for (i = 0; i < this.responseCSS.length; i++) {
-                currentHead.appendChild(responseCSS[i]);
+            var responseLinks = resp.getElementsByTagName('link')
+            for (i = 0; i < this.responseLinks.length; i++) {
+                console.log("Response link: " + i);
+                currentHead.appendChild(responseLinks[i]);
             }
 
             // Replace current page body content with response body content
+            console.log("Response body content: " + resp.getElementById("body-content").innerHTML);
             document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;            
         }        
     }
