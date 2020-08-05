@@ -41,12 +41,13 @@ function loadContent(url) {
             // Add stylesheets from response to current page head (may be a better way to handle all this?)
             var currentHead = document.getElementsByTagName('head')[0];            
             var responseLinks = resp.getElementsByTagName('link');
-            for (i = 0; i < this.responseLinks.length; i++) {
+            console.log("responseLinks length: " + responseLinks.length);
+            for (i = 0; i < responseLinks.length; i++) {
                 console.log("Response link: " + i);
                 currentHead.appendChild(responseLinks[i]);
             }
 
-            // Replace current page body content with response body content
+            // Replace current page body content with response body content            
             console.log("Response body content: " + resp.getElementById("body-content").innerHTML);
             document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;            
         }        
