@@ -6,38 +6,20 @@ function loadContent(url){
 
     request.onreadystatechange = function() {
         if(request.readyState == 4) {
-            console.log("Response received: " + request.responseText.substring(0, 10));
 
+            console.log("Response received: begin");
             // Retrieve and store response
             var resp = document.implementation.createHTMLDocument();
             resp.body.innerHTML = request.responseText;
 
-            console.log("Response stored: " + resp.body.innerHTML.substring(0, 10));            
-
-            /*
-            // Disable existing stylesheets from current page
-            var style = document.styleSheets;
-            console.log("Stylesheet length: " + style.length);
-            for (i = 0; i < style.length; i++) {
-                style[i].disabled = true;
-            }
-
-            // Remove existing stylesheets from current page
-            var styleElements = document.getElementsByTagName("link");
-            console.log("Stylesheetelements length: " + styleElements.length);
-            for (i = 0; i < styleElements.length; i++) {
-                var parent = styleElements[i].parentNode;
-                parent.removeChild(styleElements[i]);
-            }
-            */
-
             // Add stylesheets from response to current page head (may be a better way to handle all this?)
-            var currentHead = document.getElementsByTagName('head')[0];            
+            var currentHead = document.getElementsByTagName('head')[0];                        
             var responseLinks = resp.getElementsByTagName('link');
-            console.log("responseLinks length: " + responseLinks.length);
             for (i = 0; i < responseLinks.length; i++) {
-                console.log("Response link: " + i);
-                currentHead.appendChild(responseLinks[i]);
+                // If stylesheet doesn't already exist, add it
+                if (jQuery("link[href=\"" + responseLinks[i].getAttribute("href") + "\"]").length == 0) {
+                    currentHead.appendChild(responseLinks[i]);
+                }
             }
 
             // Fade out existing stuff with jquery
@@ -50,6 +32,8 @@ function loadContent(url){
                 // Fade new stuff in
                 jQuery("#body-content").fadeIn(200, null);
             });
+
+            console.log("Response received: end");
         }        
     }
 
@@ -70,8 +54,6 @@ document.getElementById("navbar-projects").addEventListener("click", function() 
 
 window.onload = function() {
     // Fade entire page in once loaded by hiding overlay div
-    //document.getElementsByClassName("overlay")[0].style.opacity = 0;    
-
     jQuery(".overlay").fadeOut(500, null);
 }
 
