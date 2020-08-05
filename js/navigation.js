@@ -69,7 +69,9 @@ document.getElementById("navbar-projects").addEventListener("click", function() 
 
 window.onload = function() {
     // Fade entire page in once loaded by hiding overlay div
-    document.getElementsByClassName("overlay")[0].style.opacity = 0;    
+    //document.getElementsByClassName("overlay")[0].style.opacity = 0;    
+
+    jQuery(".overlay").fadeOut(500, null);
 }
 
 window.onpopstate = function(event) {
