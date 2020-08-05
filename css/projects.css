@@ -25,6 +25,9 @@
     padding-right: 1em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+
+    background-color: white;
+    transition: background-color linear 150ms;
 }
 
 .project-container > a > div:hover {
