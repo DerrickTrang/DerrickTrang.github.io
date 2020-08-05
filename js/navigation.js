@@ -19,8 +19,9 @@ function loadContent(url) {
             console.log("Response received: " + request.responseText.substring(0, 10));
 
             // Retrieve and store response
-            var resp = document.createElement("html");
+            var resp = document.implementation.createHTMLDocument().body;
             resp.innerHTML = request.responseText;
+
             console.log("Response stored: " + resp.innerHTML.substring(0, 10));
 
             // Disable existing stylesheets from current page
