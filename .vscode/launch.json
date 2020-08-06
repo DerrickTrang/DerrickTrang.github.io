@@ -9,7 +9,7 @@
             "name": "Launch website from file system",      
             "type": "chrome",
             "request": "launch",                  
-            "url": "${workspaceFolder}/projects.html"
+            "url": "${workspaceFolder}/pixelBounceThree.html"
             //"file": "${file}"
         }
     ]

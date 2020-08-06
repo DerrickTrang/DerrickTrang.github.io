@@ -43,22 +43,31 @@ function loadContent(url){
 }
 
 document.getElementById("navbar-home").addEventListener("click", function() {    
-    history.pushState({ urlPath: homeURL}, "", homeURL);
-    loadContent(homeURL);
+    var homeState = { urlPath: homeURL};
+    if(history.state != homeState) {
+        history.pushState(homeState, "", "");
+        loadContent(homeURL);
+    }    
 });
 
 document.getElementById("navbar-projects").addEventListener("click", function() {
-    history.pushState({ urlPath: projectsURL}, "", projectsURL);
-    loadContent(projectsURL);    
+    var projectsState = { urlPath: projectsURL};
+    if(history.state != projectsState) {
+        history.pushState(projectsState, "", projectsURL);
+        loadContent(projectsURL);
+    }
 });
+
+window.onpopstate = function(event) {
+    var path = location.pathname.replace(/^.*[\\/]/, "");
+    if (!path) {
+        path = homeURL;
+    }
+    console.log("Path: " + path);
+    loadContent(path);
+}
 
 window.onload = function() {
     // Fade entire page in once loaded by hiding overlay div
     jQuery(".overlay").fadeOut(500, null);
-}
-
-window.onpopstate = function(event) {
-    if(event.state) {
-        loadContent(location.pathname.replace(/^.*[\\/]/, ""));
-    }    
 }

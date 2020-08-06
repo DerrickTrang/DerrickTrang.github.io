@@ -1,149 +1,236 @@
-var scene, camera, renderer, geometry, light, boundary, table;
+/* ------------------------ Variable Declarations ------------------------ */
+var scene, camera, renderer, light, boundary, table, cubeGeometry;
 var cubeArray = [];
 
 var cameraRadius = 300;
 var cameraPosition = 0;
-var pauseCameraRotate = false;
+var cameraSpeed = 0.007; // radians
 
+// Options
 var boundarySize = 100;
-var cubeSize = 10;
-var cubeMaxSpeed = 0.7;
 
-var pinching, zoomDist;
+var cubeSize = 4;
+var cubeSpeed = 2;
 
-function cube() {
+var showOptions = false;
+var pauseCameraRotate = false;
+var hideBounds = false;
+
+/* ------------------------ Functions ------------------------ */
+// Cube object
+function cube() {    
+
     // Randomize starting velocity
-	this.xvelocity = ((Math.random() * cubeMaxSpeed) + 1) * (Math.random() < 0.5 ? -1 : 1);
-    this.yvelocity = ((Math.random() * cubeMaxSpeed) + 1) * (Math.random() < 0.5 ? -1 : 1);
-    this.zvelocity = ((Math.random() * cubeMaxSpeed) + 1) * (Math.random() < 0.5 ? -1 : 1);
+    this.xVelocityScale = Math.random();
+    this.yVelocityScale = Math.random();
+    this.zVelocityScale = Math.random();
 
-    this.cubeMesh = new THREE.Mesh(geometry, 
+	this.xVelocity = this.xVelocityScale * cubeSpeed * (Math.random() < 0.5 ? -1 : 1);
+    this.yVelocity = this.yVelocityScale * cubeSpeed * (Math.random() < 0.5 ? -1 : 1);
+    this.zVelocity = this.zVelocityScale * cubeSpeed * (Math.random() < 0.5 ? -1 : 1);
+
+    this.cubeMesh = new THREE.Mesh(cubeGeometry, 
         new THREE.MeshPhongMaterial({ color: "rgb(" + Math.floor(Math.random() * 255) + ", " + Math.floor(Math.random() * 255) + ", " + Math.floor(Math.random() * 255) + ", 1)" }));    
-    
+    this.cubeMesh.name = "cube";
+        
     // Randomize starting location
     this.cubeMesh.position.x = Math.random() * ((boundarySize / 2) - (cubeSize / 2));
     this.cubeMesh.position.y = Math.random() * ((boundarySize / 2) - (cubeSize / 2));
-    this.cubeMesh.position.z = Math.random() * ((boundarySize / 2) - (cubeSize / 2));
+    this.cubeMesh.position.z = Math.random() * ((boundarySize / 2) - (cubeSize / 2));    
 }
 
 function initTHREE() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);    
-    camera.position.set(0, 100, cameraRadius);
-    camera.lookAt(0, 0, 0);
-
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-
     document.body.appendChild(renderer.domElement);
 
-    geometry = new THREE.BoxGeometry(10, 10, 10);    
-
     light = new THREE.DirectionalLight( 0xFFFFFF, 2 );
-    //light.position.set( 20, 100, 100 );
     light.position.set( 20, 50, 100 );
     light.castShadow = true;
+    scene.add(light);
 
-    boundary = new THREE.Mesh(
-        new THREE.BoxGeometry(boundarySize, boundarySize, boundarySize), 
-        new THREE.MeshBasicMaterial({color: 0x34ebe5, wireframe: true }));    
+    boundary = new THREE.Mesh(new THREE.BoxGeometry(boundarySize, boundarySize, boundarySize), 
+        new THREE.MeshBasicMaterial({color: 0x34ebe5, wireframe: true })
+        );
+    boundary.name = "boundary";
+    scene.add(boundary);    
 
-    // table
     table = new THREE.Mesh(
-                new THREE.PlaneGeometry(500, 500, 500, 1),
-                new THREE.MeshPhongMaterial({color: 0x282828})
-                );
-                table.position.set(0, (-boundarySize / 2) - 1, 0);
-                table.rotation.x = Math.PI * 3 / 2;
+        new THREE.PlaneGeometry(500, 500, 500, 1),
+        new THREE.MeshPhongMaterial({color: 0x282828})
+        );
+    table.position.set(0, (-boundarySize / 2) - 1, 0);
+    table.rotation.x = Math.PI * 3 / 2;
+    scene.add(table);
+
+    cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);    
 }
 
 function updateCubes() {
 
+    if(cubeGeometry.parameters.width != cubeSize) {
+        cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);    
+    }
+
     for (i = 0; i < cubeArray.length; i++) {
 
-        // calculate cube position
-        cubeArray[i].cubeMesh.position.x = cubeArray[i].cubeMesh.position.x + cubeArray[i].xvelocity;
-        cubeArray[i].cubeMesh.position.y = cubeArray[i].cubeMesh.position.y + cubeArray[i].yvelocity;
-        cubeArray[i].cubeMesh.position.z = cubeArray[i].cubeMesh.position.z + cubeArray[i].zvelocity;
-			
-        if (cubeArray[i].cubeMesh.position.x >=((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].xvelocity = cubeArray[i].xvelocity * -1;
-        }
-        if (cubeArray[i].cubeMesh.position.x <= (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].xvelocity = cubeArray[i].xvelocity * -1
+        // Update cube size
+        if(cubeArray[i].cubeMesh.geometry.parameters.width != cubeSize) {
+            cubeArray[i].cubeMesh.geometry = cubeGeometry;
         }
 
-        if (cubeArray[i].cubeMesh.position.y >= ((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].yvelocity = cubeArray[i].yvelocity * -1
+        // Update cube velocity
+        if(cubeArray[i].xVelocity >= 0) {
+            cubeArray[i].xVelocity = cubeArray[i].xVelocityScale * cubeSpeed;
+        } else {
+            cubeArray[i].xVelocity = cubeArray[i].xVelocityScale * cubeSpeed * -1;
         }
-        if (cubeArray[i].cubeMesh.position.y <= (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].yvelocity = cubeArray[i].yvelocity * -1
+
+        if(cubeArray[i].yVelocity >= 0) {
+            cubeArray[i].yVelocity = cubeArray[i].yVelocityScale * cubeSpeed;
+        } else {
+            cubeArray[i].yVelocity = cubeArray[i].yVelocityScale * cubeSpeed * -1;
         }
-        
-        if (cubeArray[i].cubeMesh.position.z >= ((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].zvelocity = cubeArray[i].zvelocity * -1
+
+        if(cubeArray[i].zVelocity >= 0) {
+            cubeArray[i].zVelocity = cubeArray[i].zVelocityScale * cubeSpeed;
+        } else {
+            cubeArray[i].zVelocity = cubeArray[i].zVelocityScale * cubeSpeed * -1;
+        }  
+
+        // Update cube position
+        if (cubeArray[i].cubeMesh.position.x > ((boundarySize / 2) - (cubeSize / 2))) {
+            cubeArray[i].cubeMesh.position.x = ((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].xVelocity *= -1;
+        } else if (cubeArray[i].cubeMesh.position.x < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
+            cubeArray[i].cubeMesh.position.x = -((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].xVelocity *= -1;
+        } else {
+            cubeArray[i].cubeMesh.position.x += cubeArray[i].xVelocity;
         }
-        if (cubeArray[i].cubeMesh.position.z <= (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].zvelocity = cubeArray[i].zvelocity * -1
+
+        if (cubeArray[i].cubeMesh.position.y > ((boundarySize / 2) - (cubeSize / 2))) {
+            cubeArray[i].cubeMesh.position.y = ((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].yVelocity *= -1;
+        } else if (cubeArray[i].cubeMesh.position.y < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
+            cubeArray[i].cubeMesh.position.y = -((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].yVelocity *= -1;
+        } else {
+            cubeArray[i].cubeMesh.position.y += cubeArray[i].yVelocity;
+        }
+
+        if (cubeArray[i].cubeMesh.position.z > ((boundarySize / 2) - (cubeSize / 2))) {
+            cubeArray[i].cubeMesh.position.z = ((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].zVelocity *= -1;
+        } else if (cubeArray[i].cubeMesh.position.z < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
+            cubeArray[i].cubeMesh.position.z = -((boundarySize / 2) - (cubeSize / 2));
+            cubeArray[i].zVelocity *= -1;
+        } else {
+            cubeArray[i].cubeMesh.position.z += cubeArray[i].zVelocity;
         }
     }
 }
 
 function drawScene() {    
-    // clear out existing children items
-    while (scene.children.length) {
-        scene.remove(scene.children[0]);
+
+    // Update boundary
+    if(boundary.geometry.parameters.width != boundarySize) {
+        boundary.geometry = new THREE.BoxGeometry(boundarySize, boundarySize, boundarySize);
+    }    
+    if(hideBounds && scene.getObjectByName("boundary")) {
+        scene.remove(scene.getObjectByName("boundary"));        
+    } else if(!hideBounds && !scene.getObjectByName("boundary")) {
+        scene.add(boundary);
     }
 
-    // draw light
-    scene.add(light);
-
-    // draw boundary
-    scene.add(boundary);    
-
-    // draw table
-    scene.add(table);
-
-    // add all cubes to scene
-    for (i = 0; i < cubeArray.length; i++) {
-        scene.add(cubeArray[i].cubeMesh);
-    }   
+    // Update table
+    table.position.set(0, (-boundarySize / 2) - 1, 0);
 
     // update camera
-    if(!pauseCameraRotate) {
-        camera.position.set(cameraRadius * Math.cos(cameraPosition), 100, cameraRadius * Math.sin(cameraPosition));
-        camera.lookAt(0, 0, 0);
-        cameraPosition = (cameraPosition + 0.007) % 360;
-    }    
+    camera.position.set(cameraRadius * Math.cos(cameraPosition), 100, cameraRadius * Math.sin(cameraPosition));    
+    if(!pauseCameraRotate) {        
+        cameraPosition = (cameraPosition + cameraSpeed) % 360;
+    }
+    camera.lookAt(0, 0, 0);
 
-    // draw scene
+    // Draw scene
     renderer.render(scene, camera);
 }
 
 function addCubes(x) {
 	for (i = 0; i < x; i++) {
-		cubeArray.push(new cube());
+        cubeArray.push(new cube());
+        scene.add(cubeArray[cubeArray.length - 1].cubeMesh);        
     }
 }
 
-function toggleRotate() {
-    pauseCameraRotate = !pauseCameraRotate;
+function removeCubes() {
+    cubeArray = [];
+    while(scene.getObjectByName("cube")) {
+        scene.remove(scene.getObjectByName("cube"));
+    }
 }
 
-function zoomCameraInit() {
-    zoomDist = 0;
-}
-
-function zoomCamera(e) {
-    var dist = Math.hypot(
-        e.touches[0].pageX - e.touches[1].pageX,
-        e.touches[0].pageY - e.touches[1].pageY);
-
-    if (zoomDist = 0) {
-        zoomDist = dist;
-    } else {
-        cameraRadius += dist - zoomDist;
+function toggleOptions() {    
+    showOptions = !showOptions;
+    var options = document.getElementsByClassName("options");
+    for(i = 0; i < options.length; i++) {
+        if(showOptions) {
+            options[i].style.display = "block";        
+            document.getElementById("btnToggleOptions").style.color = "black";
+            document.getElementById("btnToggleOptions").style.backgroundColor = "aquamarine";
+        } else {
+            options[i].style.display = "none"; 
+            document.getElementById("btnToggleOptions").style.color = "white";
+            document.getElementById("btnToggleOptions").style.backgroundColor = "ForestGreen";
+        }        
     }    
+}
+
+function toggleRotate() {
+    var btnRotate = document.getElementById("btnRotateCamera");
+    if(btnRotate.checked) {
+        pauseCameraRotate = true;
+    } else {
+        pauseCameraRotate = false;
+    }
+}
+
+function toggleBounds() {
+    var btnHideBounds = document.getElementById("btnHideBounds");
+    if(btnHideBounds.checked) {
+        hideBounds = true;
+    } else {
+        hideBounds = false;
+    }
+}
+
+function changeBoundarySize() {
+    var slider = document.getElementById("sliderBoundarySize");
+    if(slider.valueAsNumber < cubeSize) {
+        slider.valueAsNumber = cubeSize + 1;
+    }
+    boundarySize = slider.valueAsNumber;    
+}
+
+function changeCubeSize() {
+    var slider = document.getElementById("sliderCubeSize");
+    if(slider.valueAsNumber > boundarySize) {
+        slider.valueAsNumber = boundarySize - 1;
+    }
+    cubeSize = slider.valueAsNumber;
+}
+
+function changeCubeSpeed() {
+    var slider = document.getElementById("sliderCubeSpeed");
+    cubeSpeed = slider.valueAsNumber;
+}
+
+function changeCameraDistance() {
+    var slider = document.getElementById("sliderCameraDistance");
+    cameraRadius = slider.valueAsNumber;
 }
 
 function animate() {    
@@ -152,14 +239,15 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Begin here
+/* ------------------------ Script execution start ------------------------ */
 initTHREE();
 addCubes(5);
 
+// Add event listeners
 document.addEventListener("keydown", function (event) {
 	switch (event.keyCode) {
 		case 8:
-			cubeArray = []; // backspace clears pixels
+			removeCubes(); // backspace clears pixels
 			break;
 		case 32:
 			addCubes(50); // spacebar adds 50
@@ -175,26 +263,13 @@ renderer.domElement.addEventListener("click", function (event) {
 	addCubes(5); // click/tap adds 5 cubes
 });
 
+document.getElementById("btnToggleOptions").addEventListener("click", toggleOptions);
 document.getElementById("btnRotateCamera").addEventListener("click", toggleRotate);
+document.getElementById("btnHideBounds").addEventListener("click", toggleBounds);
+document.getElementById("sliderBoundarySize").addEventListener("input", changeBoundarySize);
+document.getElementById("sliderCubeSize").addEventListener("input", changeCubeSize);
+document.getElementById("sliderCubeSpeed").addEventListener("input", changeCubeSpeed);
+document.getElementById("sliderCameraDistance").addEventListener("input", changeCameraDistance);
 
-// experimenting with a "pinch" event listener
-renderer.domElement.addEventListener("ontouchstart", function(event) {
-    if(event.touches.length === 2) {
-        zoomCameraInit(event);
-        pinching = true;
-    }
-});
-
-renderer.domElement.addEventListener("ontouchmove", function(event) {
-    if(pinching) {
-        zoomCamera(event);
-    }
-});
-
-renderer.domElement.addEventListener("ontouchend", function() {
-    if(pinching) {
-        pinching = false;
-    }
-});
-
+// Begin animation loop
 animate(); 
