@@ -43,17 +43,17 @@ function loadContent(url){
 }
 
 document.getElementById("navbar-home").addEventListener("click", function() {    
-    var homeState = { urlPath: homeURL};
-    if(history.state != homeState) {
-        history.pushState(homeState, "", "");
+    var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
+    if(currentPath != homeURL && currentPath != "/") {
+        history.pushState({ urlPath: homeURL}, "", "/");
         loadContent(homeURL);
     }    
 });
 
 document.getElementById("navbar-projects").addEventListener("click", function() {
-    var projectsState = { urlPath: projectsURL};
-    if(history.state != projectsState) {
-        history.pushState(projectsState, "", projectsURL);
+    var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
+    if(currentPath != projectsURL) {
+        history.pushState({ urlPath: projectsURL}, "", projectsURL);
         loadContent(projectsURL);
     }
 });
@@ -63,7 +63,6 @@ window.onpopstate = function(event) {
     if (!path) {
         path = homeURL;
     }
-    console.log("Path: " + path);
     loadContent(path);
 }
 
