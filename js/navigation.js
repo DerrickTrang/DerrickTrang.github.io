@@ -45,7 +45,7 @@ function loadContent(url){
 document.getElementById("navbar-home").addEventListener("click", function() {    
     var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
     if(currentPath != homeURL && currentPath != "/") {
-        history.pushState({ urlPath: homeURL}, "", "/");
+        history.replaceState({ urlPath: homeURL}, "", "/");
         loadContent(homeURL);
     }    
 });
@@ -53,7 +53,7 @@ document.getElementById("navbar-home").addEventListener("click", function() {
 document.getElementById("navbar-projects").addEventListener("click", function() {
     var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
     if(currentPath != projectsURL) {
-        history.pushState({ urlPath: projectsURL}, "", projectsURL);
+        history.replaceState({ urlPath: projectsURL}, "", projectsURL);
         loadContent(projectsURL);
     }
 });
