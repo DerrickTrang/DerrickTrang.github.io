@@ -15,6 +15,7 @@ var cubeSpeed = 2;
 var showOptions = false;
 var pauseCameraRotate = false;
 var hideBounds = false;
+var hideTable = false;
 
 /* ------------------------ Functions ------------------------ */
 // Cube object
@@ -34,9 +35,10 @@ function cube() {
     this.cubeMesh.name = "cube";
         
     // Randomize starting location
-    this.cubeMesh.position.x = Math.random() * ((boundarySize / 2) - (cubeSize / 2));
-    this.cubeMesh.position.y = Math.random() * ((boundarySize / 2) - (cubeSize / 2));
-    this.cubeMesh.position.z = Math.random() * ((boundarySize / 2) - (cubeSize / 2));    
+    let cubePosLimit = (boundarySize / 2) - (cubeSize / 2);
+    this.cubeMesh.position.x = Math.random() * cubePosLimit;
+    this.cubeMesh.position.y = Math.random() * cubePosLimit;
+    this.cubeMesh.position.z = Math.random() * cubePosLimit;    
 }
 
 function initTHREE() {
@@ -47,7 +49,7 @@ function initTHREE() {
     document.body.appendChild(renderer.domElement);
 
     light = new THREE.DirectionalLight( 0xFFFFFF, 2 );
-    light.position.set( 20, 50, 100 );
+    light.position.set( 20, 150, 100 );
     light.castShadow = true;
     scene.add(light);
 
@@ -61,6 +63,7 @@ function initTHREE() {
         new THREE.PlaneGeometry(500, 500, 500, 1),
         new THREE.MeshPhongMaterial({color: 0x282828})
         );
+    table.name = "table";
     table.position.set(0, (-boundarySize / 2) - 1, 0);
     table.rotation.x = Math.PI * 3 / 2;
     scene.add(table);
@@ -74,7 +77,7 @@ function updateCubes() {
         cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);    
     }
 
-    for (i = 0; i < cubeArray.length; i++) {
+    for (let i = 0; i < cubeArray.length; i++) {
 
         // Update cube size
         if(cubeArray[i].cubeMesh.geometry.parameters.width != cubeSize) {
@@ -101,34 +104,33 @@ function updateCubes() {
         }  
 
         // Update cube position
-        if (cubeArray[i].cubeMesh.position.x > ((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].cubeMesh.position.x = ((boundarySize / 2) - (cubeSize / 2));
+        let cubePosLimit = (boundarySize / 2) - (cubeSize / 2);
+
+        cubeArray[i].cubeMesh.position.x += cubeArray[i].xVelocity;
+        if (cubeArray[i].cubeMesh.position.x > cubePosLimit) {
+            cubeArray[i].cubeMesh.position.x = cubePosLimit;
             cubeArray[i].xVelocity *= -1;
-        } else if (cubeArray[i].cubeMesh.position.x < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].cubeMesh.position.x = -((boundarySize / 2) - (cubeSize / 2));
+        } else if (cubeArray[i].cubeMesh.position.x < (cubePosLimit * -1)) {
+            cubeArray[i].cubeMesh.position.x = -cubePosLimit;
             cubeArray[i].xVelocity *= -1;
-        } else {
-            cubeArray[i].cubeMesh.position.x += cubeArray[i].xVelocity;
         }
 
-        if (cubeArray[i].cubeMesh.position.y > ((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].cubeMesh.position.y = ((boundarySize / 2) - (cubeSize / 2));
+        cubeArray[i].cubeMesh.position.y += cubeArray[i].yVelocity;
+        if (cubeArray[i].cubeMesh.position.y > cubePosLimit) {
+            cubeArray[i].cubeMesh.position.y = cubePosLimit;
             cubeArray[i].yVelocity *= -1;
-        } else if (cubeArray[i].cubeMesh.position.y < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].cubeMesh.position.y = -((boundarySize / 2) - (cubeSize / 2));
+        } else if (cubeArray[i].cubeMesh.position.y < (cubePosLimit * -1)) {
+            cubeArray[i].cubeMesh.position.y = -cubePosLimit;
             cubeArray[i].yVelocity *= -1;
-        } else {
-            cubeArray[i].cubeMesh.position.y += cubeArray[i].yVelocity;
         }
 
-        if (cubeArray[i].cubeMesh.position.z > ((boundarySize / 2) - (cubeSize / 2))) {
-            cubeArray[i].cubeMesh.position.z = ((boundarySize / 2) - (cubeSize / 2));
+        cubeArray[i].cubeMesh.position.z += cubeArray[i].zVelocity;
+        if (cubeArray[i].cubeMesh.position.z > cubePosLimit) {
+            cubeArray[i].cubeMesh.position.z = cubePosLimit;
             cubeArray[i].zVelocity *= -1;
-        } else if (cubeArray[i].cubeMesh.position.z < (((boundarySize / 2) - (cubeSize / 2)) * -1)) {
-            cubeArray[i].cubeMesh.position.z = -((boundarySize / 2) - (cubeSize / 2));
+        } else if (cubeArray[i].cubeMesh.position.z < (cubePosLimit * -1)) {
+            cubeArray[i].cubeMesh.position.z = -cubePosLimit;
             cubeArray[i].zVelocity *= -1;
-        } else {
-            cubeArray[i].cubeMesh.position.z += cubeArray[i].zVelocity;
         }
     }
 }
@@ -147,6 +149,11 @@ function drawScene() {
 
     // Update table
     table.position.set(0, (-boundarySize / 2) - 1, 0);
+    if(hideTable && scene.getObjectByName("table")) {
+        scene.remove(scene.getObjectByName("table"));        
+    } else if(!hideTable && !scene.getObjectByName("table")) {
+        scene.add(table);
+    }
 
     // update camera
     camera.position.set(cameraRadius * Math.cos(cameraPosition), 100, cameraRadius * Math.sin(cameraPosition));    
@@ -160,7 +167,7 @@ function drawScene() {
 }
 
 function addCubes(x) {
-	for (i = 0; i < x; i++) {
+	for (let i = 0; i < x; i++) {
         cubeArray.push(new cube());
         scene.add(cubeArray[cubeArray.length - 1].cubeMesh);        
     }
@@ -175,8 +182,8 @@ function removeCubes() {
 
 function toggleOptions() {    
     showOptions = !showOptions;
-    var options = document.getElementsByClassName("options");
-    for(i = 0; i < options.length; i++) {
+    let options = document.getElementsByClassName("options");
+    for(let i = 0; i < options.length; i++) {
         if(showOptions) {
             options[i].style.display = "block";        
             document.getElementById("btnToggleOptions").style.color = "black";
@@ -190,7 +197,7 @@ function toggleOptions() {
 }
 
 function toggleRotate() {
-    var btnRotate = document.getElementById("btnRotateCamera");
+    let btnRotate = document.getElementById("btnRotateCamera");
     if(btnRotate.checked) {
         pauseCameraRotate = true;
     } else {
@@ -199,7 +206,7 @@ function toggleRotate() {
 }
 
 function toggleBounds() {
-    var btnHideBounds = document.getElementById("btnHideBounds");
+    let btnHideBounds = document.getElementById("btnHideBounds");
     if(btnHideBounds.checked) {
         hideBounds = true;
     } else {
@@ -207,8 +214,17 @@ function toggleBounds() {
     }
 }
 
+function toggleTable() {
+    let btnHideTable = document.getElementById("btnHideTable");
+    if(btnHideTable.checked) {
+        hideTable = true;
+    } else {
+        hideTable = false;
+    }
+}
+
 function changeBoundarySize() {
-    var slider = document.getElementById("sliderBoundarySize");
+    let slider = document.getElementById("sliderBoundarySize");
     if(slider.valueAsNumber < cubeSize) {
         slider.valueAsNumber = cubeSize + 1;
     }
@@ -216,7 +232,7 @@ function changeBoundarySize() {
 }
 
 function changeCubeSize() {
-    var slider = document.getElementById("sliderCubeSize");
+    let slider = document.getElementById("sliderCubeSize");
     if(slider.valueAsNumber > boundarySize) {
         slider.valueAsNumber = boundarySize - 1;
     }
@@ -224,12 +240,12 @@ function changeCubeSize() {
 }
 
 function changeCubeSpeed() {
-    var slider = document.getElementById("sliderCubeSpeed");
+    let slider = document.getElementById("sliderCubeSpeed");
     cubeSpeed = slider.valueAsNumber;
 }
 
 function changeCameraDistance() {
-    var slider = document.getElementById("sliderCameraDistance");
+    let slider = document.getElementById("sliderCameraDistance");
     cameraRadius = slider.valueAsNumber;
 }
 
@@ -266,6 +282,7 @@ renderer.domElement.addEventListener("click", function (event) {
 document.getElementById("btnToggleOptions").addEventListener("click", toggleOptions);
 document.getElementById("btnRotateCamera").addEventListener("click", toggleRotate);
 document.getElementById("btnHideBounds").addEventListener("click", toggleBounds);
+document.getElementById("btnHideTable").addEventListener("click", toggleTable);
 document.getElementById("sliderBoundarySize").addEventListener("input", changeBoundarySize);
 document.getElementById("sliderCubeSize").addEventListener("input", changeCubeSize);
 document.getElementById("sliderCubeSpeed").addEventListener("input", changeCubeSpeed);
