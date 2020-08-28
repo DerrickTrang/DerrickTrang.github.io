@@ -34,7 +34,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: transparent;
+    background: white;
+    background-clip: content-box;
     
     padding: 0.8em;
     box-sizing: border-box;
@@ -49,7 +50,6 @@ body {
     overflow: auto;
     padding: 1.5em 2em;
     box-sizing: border-box;
-    background: white;
 }
 
 ::-webkit-scrollbar {
@@ -75,7 +75,7 @@ body {
     padding: 0.5em;
 }
 
-.navbar-button {
+.navbar-button, .navbar-button-selected {
     width: 100%;
     height: 100%;
     display: flex;
@@ -89,8 +89,12 @@ body {
     transition: background-color linear 150ms;
 }
 
-.navbar-button:hover {
+.navbar-button-selected {
     background-color: slateblue;
+}
+
+.navbar-button:hover {
+    background-color: darkslateblue;
     transition: background-color linear 150ms;
 }
 
@@ -105,7 +109,7 @@ body {
     z-index: 1;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
     .content-container {
         padding: 1em 1em;
     }

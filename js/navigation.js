@@ -33,6 +33,19 @@ function loadContent(url){
                 jQuery("#body-content").fadeIn(200, null);
             });
 
+            // Highlight navbar button for selected page
+            let navButtons = document.getElementsByClassName("narbar-button-selected");
+            for(i = 0; i < navButtons.length; i++) {
+                navButtons[i].classList.remove("narbar-button-selected");
+            }
+
+            let responseURL = "/" + response.responseURL.replace(/^.*[\\/]/, "");
+            if(responseURL == homeURL) {
+                document.getElementById("navbar-home").classList.add("navbar-button-selected");
+            } else if(responseURL = projectsURL) {
+                document.getElementById("navbar-projects").classList.add("navbar-button-selected");    
+            }
+
             console.log("Response received: end");
         }        
     }
