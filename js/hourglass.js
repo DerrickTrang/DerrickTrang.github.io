@@ -17,8 +17,6 @@ var flipButton;
 var hourglass;
 var hourglassHelp;
 
-var buzzer = new Audio("audio/Air_Horn.mp3");
-
 var colorA = "dodgerblue";
 var backgroundA = "skyblue";
 var colorB = "orangered";
@@ -30,7 +28,6 @@ function showTimerValue() {
     if (countdownStart - countdownElapsed - countdownDelta <= 0) {
         console.log("Expired!");
         hourglass.innerHTML = formatTime(0);
-        buzzer.play();
         clearInterval(objInterval);
         changeState(4);
     } else {
