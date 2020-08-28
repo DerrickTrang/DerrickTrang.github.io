@@ -39,7 +39,7 @@ function loadContent(url){
                 navButtons[i].classList.remove("narbar-button-selected");
             }
 
-            let responseURL = "/" + response.responseURL.replace(/^.*[\\/]/, "");
+            let responseURL = "/" + request.responseURL.replace(/^.*[\\/]/, "");
             if(responseURL == homeURL) {
                 document.getElementById("navbar-home").classList.add("navbar-button-selected");
             } else if(responseURL = projectsURL) {
