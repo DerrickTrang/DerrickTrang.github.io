@@ -34,9 +34,9 @@ function loadContent(url){
             });
 
             // Highlight navbar button for selected page
-            let navButtons = document.getElementsByClassName("narbar-button-selected");
+            let navButtons = document.getElementsByClassName("navbar-button-selected");
             for(i = 0; i < navButtons.length; i++) {
-                navButtons[i].classList.remove("narbar-button-selected");
+                navButtons[i].classList.remove("navbar-button-selected");
             }
 
             let responseURL = "/" + request.responseURL.replace(/^.*[\\/]/, "");
