@@ -39,8 +39,8 @@ body {
 }
 
 .content-container {
-    width: 95%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     
     display: flex;
     flex-direction: column;
@@ -51,15 +51,21 @@ body {
 }
 
 .content {
-    width: 95%;
-    height: 90%;
+    width: 93%;
+    height: 95%;
 
     display: flex;
     flex-direction: column;
-    align-content: space-between;    
+    align-content: space-between;        
+    overflow: auto;
 }
 
-@media only screen and (max-width: 600px) {
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+@media only screen and (max-width: 500px) {
     .page-container {
         height: 97%;
     }
@@ -77,17 +83,19 @@ body {
 
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     
     font-family: 'Muli', 'Arial', 'Times New Roman';
 }
 
-.navbar-button {
-    width: 50%;
-    height: 2em;
-
+.navbar-button {    
+    width: 100%;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
     position: relative;
 
     box-sizing: border-box;
@@ -117,7 +125,7 @@ body {
     z-index: 1;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
     .navbar {
         height: 7em;
 
@@ -125,5 +133,6 @@ body {
     }
     .navbar-button {
         width: 100%;
+        font-size: 2em;
     }
 }
