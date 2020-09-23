@@ -24,7 +24,8 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="img/favicons/favicon-180.png">
 	<meta name="msapplication-TileColor" content="#FFFFFF">
 	<meta name="msapplication-TileImage" content="img/favicons/favicon-144.png">
-	<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
+    <meta name="msapplication-config" content="img/favicons/browserconfig.xml">
+    <meta charset="UTF-8">
 </head>
 <body>
     <div class="page-container">
@@ -35,15 +36,65 @@
             </div>
         </div>
 
-        <div class="content-container" id="body-content">            
-            <div>Things I have made:</div>
-                <br />
-                <div class="project-container">
-                    <a href="hourglass.html"><div>Flippable Hourglass - a sand timer for the modern man!</div></a>
-                    <a href="pixelBounce.html"><div>Pixel Bounce - combining colors, angles, and RaNdOmNeSs!</div></a>
-                    <a href="pixelBounceThree.html"><div>Pixel Bounce 3D - like the original, but with another dimension!</div></a>
-                    <a href="lightbulb.html"><div>Lightbulb - the first thing I made with Javascript. Mom is so proud!</div></a>
+        <div class="content-container" id="body-content">
+            <div class="project-container">
+                <div class="project-item">
+                    <div class="project-header" id="hourglass">
+                        <div class="project-header-arrow">></div>&emsp;Flippable Hourglass
+                    </div>
+                    <div class="project-desc">
+                        <div class="project-desc-padded">
+                        <i>"A sand timer for the modern man!"</i><br>
+                        <br>
+                        This simulates an hourglass that can be flipped, tracking the time remaining on either side.<br>
+                        <br>
+                        Created specifically for a variation of Codenames we played. This might just be the only "flippable" Javascript hourglass that exists on a web browser. Feel free to send me a condescending message if you can find a different one.<br>
+                        <br>
+                        <a href="hourglass.html" class="project-button">View Project</a>
+                        </div>
+                    </div>
+                </div>                    
+                <div class="project-item">
+                    <div class="project-header" id="pixelBounceThree">
+                        <div class="project-header-arrow">></div>&emsp;Pixel Bounce 3D
+                    </div>
+                    <div class="project-desc">
+                        <div class="project-desc-padded">
+                        <i>"Like the original, but with another dimension!"</i><br>                            
+                        <br>
+                        Made with <a href="https://threejs.org/">three.js</a>, a Javascript library for rendering 3D graphics with WebGL.<br>
+                        <br>
+                        <a href="pixelBounceThree.html" class="project-button">View Project</a>
+                    </div>
+                    </div>
                 </div>
+                <div class="project-item">
+                    <div class="project-header" id="pixelBounce">
+                        <div class="project-header-arrow">></div>&emsp;Pixel Bounce
+                    </div>
+                    <div class="project-desc">
+                        <div class="project-desc-padded">
+                        <i>"Combining colors, angles, and RaNdOmNeSs!"</i><br>
+                        <br>
+                        A learning experience on how to draw something on HTML canvas element.<br>
+                        <br>
+                        <a href="pixelBounce.html" class="project-button">View Project</a>
+                    </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-header" id="lightbulb">
+                        <div class="project-header-arrow">></div>&emsp;Lightbulb
+                    </div>
+                    <div class="project-desc">
+                        <div class="project-desc-padded">
+                        The first thing I created with Javascript. I'm keeping this here like a parent would keep their kid's first art piece on the fridge.<br>
+                        <br>
+                        <a href="lightbulb.html" class="project-button">View Project</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -53,6 +104,6 @@
     <!-- Load scripts at the end of a page -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/navigation.js"></script>
-
+    <script src="js/projects.js"></script>
 </body>
 </html>

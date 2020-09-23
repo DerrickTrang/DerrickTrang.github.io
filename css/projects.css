@@ -9,28 +9,89 @@
     align-items: center; 
 }
 
-.project-container > a {
+.project-item, .project-item-selected {
     width: 100%;
-    text-decoration: none;
+    transition: border-color linear 150ms;
+    border: solid 0.5px;
 }
 
-.project-container > a > div{
-    width: auto;
+.project-item {    
+    border-color: white;
+}
+
+.project-item-selected {    
+    border-color: turquoise;
+}
+
+.project-item:hover {
+    border-color: turquoise;
+}
+
+.project-header, .project-header-selected {    
     height: auto;
-    
-    display: block;
-        
-    color: black;
     padding-left: 1em;
     padding-right: 1em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    transition: background-color linear 150ms;    
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+}
 
-    background-color: white;
+.project-header:hover {
+    background-color: turquoise;
     transition: background-color linear 150ms;
 }
 
-.project-container > a > div:hover {
+.project-header {
+    background-color: white;
+}
+
+.project-header-selected {
     background-color: paleturquoise;
+}
+
+.project-header > .project-header-arrow {
+    transition: transform linear 200ms;
+}
+
+.project-header-selected > .project-header-arrow {
+    transform: rotate(90deg);
+    transition: transform linear 200ms;
+}
+
+.project-desc, .project-desc-selected {
+    padding-left: 1em;
+    padding-right: 1em;    
+    overflow: hidden;
+}
+
+.project-desc {
+    max-height: 0;
+    transition: max-height 320ms ease-out;
+}
+
+.project-desc-selected {
+    max-height: 400px;    
+    transition: max-height 320ms ease-in;    
+}
+
+.project-desc-padded {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+}
+
+.project-button {
+    appearance: button;
+    text-decoration: none;
+    color: black;
+    background-color: paleturquoise;
+    padding: 0.7em;
+    user-select: none;
+}
+
+.project-button:hover {
+    background-color: turquoise;
     transition: background-color linear 150ms;
 }

@@ -135,7 +135,9 @@ function updateCubes() {
     }
 }
 
-function drawScene() {    
+function drawScene() {
+    // Update renderr suze
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     // Update boundary
     if(boundary.geometry.parameters.width != boundarySize) {
@@ -156,6 +158,8 @@ function drawScene() {
     }
 
     // update camera
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
     camera.position.set(cameraRadius * Math.cos(cameraPosition), 100, cameraRadius * Math.sin(cameraPosition));    
     if(!pauseCameraRotate) {        
         cameraPosition = (cameraPosition + cameraSpeed) % 360;

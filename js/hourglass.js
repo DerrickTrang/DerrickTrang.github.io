@@ -15,6 +15,7 @@ var startButtonB;
 var resetButton;
 var flipButton;
 var hourglass;
+var hourglassContainer;
 var hourglassHelp;
 
 var colorA = "dodgerblue";
@@ -32,6 +33,16 @@ function showTimerValue() {
         changeState(4);
     } else {
         hourglass.innerHTML = formatTime(countdownStart - countdownElapsed - countdownDelta);
+    }
+
+    // Draw timer according to remaining time
+    let timerPercent = (countdownElapsed + countdownDelta) * 100 / countdownStart;
+    if(currentState === 1) {      
+        hourglassContainer.style.background = "linear-gradient(white " + timerPercent + "%, " + backgroundA + " " + timerPercent + "%)"
+    } else if(currentState === 2) {
+        hourglassContainer.style.background = "linear-gradient(white " + timerPercent + "%, " + backgroundB + " " + timerPercent + "%)"
+    } else {
+        hourglassContainer.style.background = "black"
     }
 }
 
@@ -117,7 +128,7 @@ function changeTimer() {
 
 function init() {
     countdownStart = 60000; // countdown from 60000 ms (let user edit this later)
-    countdownElapsed = 0; // total amount of time that has elapsed\
+    countdownElapsed = 0; // total amount of time that has elapsed
     countdownDelta = 0;
     currentState = 0;
     lastState = 0;
@@ -151,22 +162,22 @@ function changeState(state) {
     // Use this function to update various parameters and functions
     currentState = state;
     console.log("changing state to: " + state);
-    // Update event listeners on timer
-    hourglass.removeEventListener("click", pauseTimer);
-    hourglass.removeEventListener("click", resumeTimer);
-    hourglass.removeEventListener("click", changeTimer);
+    // // Update event listeners on timer
+    hourglassContainer.removeEventListener("click", pauseTimer);
+    hourglassContainer.removeEventListener("click", resumeTimer);
+    hourglassContainer.removeEventListener("click", changeTimer);
     switch (state) {
         case 0:
-            hourglass.addEventListener("click", changeTimer);
+            hourglassContainer.addEventListener("click", changeTimer);
             break;
         case 1:
-            hourglass.addEventListener("click", pauseTimer);
+            hourglassContainer.addEventListener("click", pauseTimer);
             break;
         case 2:
-            hourglass.addEventListener("click", pauseTimer);
+            hourglassContainer.addEventListener("click", pauseTimer);
             break;
         case 3:
-            hourglass.addEventListener("click", resumeTimer);
+            hourglassContainer.addEventListener("click", resumeTimer);
             break;
         default:
             break;
@@ -183,7 +194,8 @@ function changeState(state) {
             flipButton.style.display = 'none';
 
             hourglassContainer.style.backgroundColor = "white";
-            hourglass.style.backgroundColor = "white";
+            hourglassContainer.style.background = "none";
+            hourglass.style.backgroundColor = "transparent";
             break;
         case 1:
             // In progress A
@@ -193,10 +205,7 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'flex';
 
-            flipButton.style.backgroundColor = colorB;
-
-            hourglass.style.backgroundColor = colorA;
-            hourglassContainer.style.backgroundColor = backgroundA;
+            flipButton.style.backgroundColor = colorA;
             break;
         case 2:
             // In progress B
@@ -206,10 +215,7 @@ function changeState(state) {
             resetButton.style.display = 'none';
             flipButton.style.display = 'flex';
 
-            flipButton.style.backgroundColor = colorA;
-
-            hourglass.style.backgroundColor = colorB;
-            hourglassContainer.style.backgroundColor = backgroundB;
+            flipButton.style.backgroundColor = colorB;
             break;
         case 3:
             // Stopped
@@ -229,6 +235,7 @@ function changeState(state) {
             flipButton.style.display = 'none';
 
             hourglassContainer.style.backgroundColor = "black";
+            hourglassContainer.style.background = "none";
             hourglass.style.backgroundColor = "red";
             break;
         default:
@@ -239,7 +246,8 @@ function changeState(state) {
             flipButton.style.display = 'none';
 
             hourglassContainer.style.backgroundColor = "white";
-            hourglass.style.backgroundColor = "white";
+            hourglassContainer.style.background = "none";
+            hourglass.style.backgroundColor = "transparent";
             break;
     }
 }
