@@ -1,6 +1,8 @@
-var lastItemId = ""
+var lastItemId;
 
 const makeProjectsWork = () => {
+    lastItemId = "";
+
     document.querySelectorAll(".project-header").forEach((e) => {
         e.addEventListener('click', () => {
             // Unselect last item
