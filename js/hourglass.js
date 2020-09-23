@@ -115,14 +115,19 @@ function flipTimer() {
 }
 
 function changeTimer() {
-    var sec = prompt("Enter the hourglass time in seconds:", "60");
-    if (sec != null) {
-        countdownStart = parseInt(sec) * 1000;
-    } else {
-        // Defaulted to 60 seconds
-        countdownStart = 60000;
-    }
-    console.log("countdownStart = " + countdownStart)
+    while(1) {
+        let sec = prompt("Enter the hourglass time in seconds:");
+        if (sec != null) {
+            if(sec.trim() === "" || isNaN(sec)) {
+                alert("Invalid time!");
+            } else {
+                countdownStart = parseInt(sec) * 1000;
+                break;
+            }            
+        } else {
+            break;
+        }
+    }    
     hourglass.innerHTML = formatTime(countdownStart);
 }
 

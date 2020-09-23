@@ -30,7 +30,9 @@ function loadContent(url){
                 document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;                         
 
                 // Fade new stuff in
-                jQuery("#body-content").fadeIn(200, null);
+                jQuery("#body-content").fadeIn(200, () => {
+                    makeProjectsWork();
+                });
             });
 
             // Highlight navbar button for selected page
@@ -44,7 +46,6 @@ function loadContent(url){
                 document.getElementById("navbar-home").classList.add("navbar-button-selected");
             } else if(responseURL = projectsURL) {
                 document.getElementById("navbar-projects").classList.add("navbar-button-selected"); 
-                makeProjectsWork();
             }
 
             console.log("Response received: end");
