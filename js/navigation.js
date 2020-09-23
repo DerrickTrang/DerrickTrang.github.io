@@ -43,7 +43,8 @@ function loadContent(url){
             if(responseURL == homeURL) {
                 document.getElementById("navbar-home").classList.add("navbar-button-selected");
             } else if(responseURL = projectsURL) {
-                document.getElementById("navbar-projects").classList.add("navbar-button-selected");    
+                document.getElementById("navbar-projects").classList.add("navbar-button-selected"); 
+                makeProjectsWork();
             }
 
             console.log("Response received: end");
