@@ -387,14 +387,14 @@ const changeState = (newState) => {
 
 function loadAssets() {
     mountainImg.src = "img/quackWhacker/mountain.png";
-    duckIdle.src = "img/quackWhacker/duckIdle.png";
-    duckWingUp.src = "img/quackWhacker/duckWingUp.png";
-    duckWingDown.src = "img/quackWhacker/duckWingDown.png";
-    duckZoomin.src = "img/quackWhacker/duckZoomin.png";
-    treeImg.src = "img/quackWhacker/tree.png";
-    cloudImg.src = "img/quackWhacker/clouds.png";
+    duckIdle.src = "img/quackWhacker/DuckIdle.png";
+    duckWingUp.src = "img/quackWhacker/DuckWingUp.png";
+    duckWingDown.src = "img/quackWhacker/DuckWingDown.png";
+    duckZoomin.src = "img/quackWhacker/DuckZoomin.png";
+    treeImg.src = "img/quackWhacker/Tree.png";
+    cloudImg.src = "img/quackWhacker/Clouds.png";
     batterStartImg.src = "img/quackWhacker/BatterStart.png";
-    batterSwingingImg.src = "img/quackWhacker/batterSwinging.png";
+    batterSwingingImg.src = "img/quackWhacker/BatterSwinging.png";
 
     mountainImg.onload = () => {
         mountainPattern = ctx.createPattern(mountainImg, "repeat");
