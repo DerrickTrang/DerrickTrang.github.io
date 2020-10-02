@@ -1,28 +1,4 @@
-// Initialize
-const canvas = document.querySelector("#gs");
-const ctx = canvas.getContext("2d");
-const gameStartScreen = document.querySelector('#gameStartScreen');
-const gameOverScreen = document.querySelector('#gameOverScreen');
-const gameOverMsg = document.querySelector('#gameOverMsg');
-const gameState = {
-    START: 1,
-    FALLING: 2,
-    MIDAIR: 3,
-    GAME_OVER: 4
-}
-const skyMaxHeight = -15000;
-const groundLevel = 0;
-const xPosStart = 0;
-const yPosStart = groundLevel - 350;
-const gravity = 0.002;
-const groundFriction = -0.01;
-const jumpHeightSteps = -0.1;
-const xPosBatter = -40;
-const yPosBatter = groundLevel - 120;
-const batterPower = 3;
-const battingWindow = 100;
-const fallingStateSpeed = 0.5;
-
+// Rendering variables
 var mountainPattern;
 var cloudPattern;
 var mountainImg = new Image();
@@ -34,11 +10,12 @@ var treeImg = new Image();
 var cloudImg = new Image();
 var batterStartImg = new Image();
 var batterSwingingImg = new Image();
-
 var backgroundGradient = ctx.createLinearGradient(0, 0, 0, skyMaxHeight);
 backgroundGradient.addColorStop(0, "deepskyblue");
 backgroundGradient.addColorStop(0.2, "cornflowerblue");
 backgroundGradient.addColorStop(0.5, "black");
+
+var bird;
 
 var batSwung;
 var currentGameState;
@@ -47,7 +24,7 @@ var yPos;
 var xVelocity;
 var yVelocity;
 var yAcceleration;
-var duckAngle;
+var birdAngle;
 var jumpsRemaining;
 
 var yMultiplier;
@@ -56,6 +33,7 @@ var lastUpdateTime = new Date();
 
 var keyPressed;
 var newKeyInput;
+
 var sessionHighScore = 0;
 
 // Event listeners
@@ -121,7 +99,7 @@ const updateCurrentPosition = () => {
 
     // Calculate velocity vector angle
     if(yVelocity !== 0) {
-        duckAngle = Math.atan(yVelocity * yMultiplier / xVelocity);
+        birdAngle = Math.atan(yVelocity * yMultiplier / xVelocity);
     }
 
     lastUpdateTime = currentTime;
@@ -137,7 +115,7 @@ const startLoop = () => {
 const fallingLoop = () => {
     if(yVelocity > 0) {
         yAcceleration = 0;
-        yVelocity = fallingStateSpeed;        
+        yVelocity = bird.fallingStateSpeed;        
     }
 
     if(yPos >= groundLevel) {
@@ -174,9 +152,9 @@ const midairLoop = () => {
             sessionHighScore = Math.max(sessionHighScore, getScoreFromPos(xPos));
             changeState(gameState.GAME_OVER);
         } else {
-            xAcceleration = groundFriction;
-            if(keyPressed) {
-                yVelocity = jumpHeightSteps * jumpsRemaining;
+            xAcceleration = bird.groundFriction;
+            if(keyPressed && jumpsRemaining > 0) {
+                yVelocity = bird.jumpHeightSteps * jumpsRemaining;
                 jumpsRemaining -= 1; 
             }
         }        
@@ -185,10 +163,10 @@ const midairLoop = () => {
         if(yVelocity > 1) {
             yAcceleration = 0;
         } else {
-            yAcceleration = gravity;
+            yAcceleration = bird.gravity;
         }
         if(keyPressed) {
-            yMultiplier = 2.2;
+            yMultiplier = bird.birdYMultiplier;
         } else {
             yMultiplier = 1;
         }
@@ -200,6 +178,20 @@ const gameOverLoop = () => {
         changeState(gameState.START);
         newKeyInput = false;
     }    
+}
+
+const drawMenu = () => {
+    let wWidth = document.body.clientWidth;
+    let wHeight = document.body.clientHeight;
+    canvas.width = wWidth;
+    canvas.height = wHeight;
+
+    menuLoopInterval = (menuLoopInterval + 1) % 2000;
+    ctx.translate(-menuLoopInterval, 0);
+    ctx.fillStyle = "lightskyblue";
+    ctx.fillRect(menuLoopInterval, 0, wWidth, wHeight);    
+    ctx.fillStyle = cloudPattern;
+    ctx.fillRect(menuLoopInterval, 0, wWidth, wHeight);    
 }
 
 const drawScene = () => {
@@ -238,10 +230,6 @@ const drawScene = () => {
 	ctx.fillRect(cameraX, groundLevel, wWidth, 200);
     ctx.closePath();    
 
-    // TODO - draw grass, draw stars?
-    // Draw goalpost
-    //if(posX >=)
-
     // Draw tree
     ctx.drawImage(treeImg, 0, 0, 500, 600, -435, -600, 500, 600);
 
@@ -251,20 +239,10 @@ const drawScene = () => {
     } else {
         ctx.drawImage(batterStartImg, 0, 0, 200, 200, xPosBatter - 164, groundLevel - 200, 200, 200);
     }    
-    
-    // Draw bat hitbox
-    // ctx.beginPath();
-    // if(batSwung) {
-    //     ctx.fillStyle = "red";
-    // } else {
-    //     ctx.fillStyle = "blue";
-    // }
-	// ctx.fillRect(xPosBatter, yPosBatter, 10, 10);
-    // ctx.closePath();
 
     // Draw duck    
     ctx.translate(xPos, yPos);
-    ctx.rotate(duckAngle);    
+    ctx.rotate(birdAngle);    
     if(currentGameState === gameState.MIDAIR) {        
         if(yMultiplier !== 1) {
             ctx.drawImage(duckZoomin, 0, 0, 64, 32, -64, -32, 64, 32);
@@ -284,7 +262,7 @@ const drawScene = () => {
     // ctx.fillText(">", 0, 0);    
     // ctx.font = "12px Verdana";
 
-    ctx.rotate(-duckAngle);
+    ctx.rotate(-birdAngle);
     ctx.translate(-xPos, -yPos);
 
     // Draw high score
@@ -308,25 +286,21 @@ const changeState = (newState) => {
     // Remove existing listeners
     switch(currentGameState) {
         case gameState.START:
-            //document.removeEventListener("keydown", startEventListener);
             document.removeEventListener("keydown", spacebarEventListener);
             document.removeEventListener("mousedown", mousedownEventListener);
             document.removeEventListener("touchstart", touchstartEventListener);
             break;
         case gameState.FALLING:
-            //document.removeEventListener("keydown", fallingEventListener);
             document.removeEventListener("keydown", spacebarEventListener);
             document.removeEventListener("mousedown", mousedownEventListener);
             document.removeEventListener("touchstart", touchstartEventListener);
             break;
         case gameState.MIDAIR:
-            //document.removeEventListener("keydown", midairEventListener);
             document.removeEventListener("keydown", spacebarEventListener);
             document.removeEventListener("mousedown", mousedownEventListener);
             document.removeEventListener("touchstart", touchstartEventListener);
             break;
         case gameState.GAME_OVER:
-            //document.removeEventListener("keydown", gameOverEventListener);
             document.removeEventListener("keydown", backspaceEventListener);
             break;
     }
@@ -341,9 +315,8 @@ const changeState = (newState) => {
             yVelocity = 0;
             xAcceleration = 0;
             yAcceleration = 0;
-            duckAngle = 0;
-            yMultiplier = 1;
-            jumpsRemaining = 5;
+            birdAngle = 0;            
+            jumpsRemaining = bird.maxJumps;
             //document.addEventListener("keydown", startEventListener);
             gameOverScreen.style.display = "none";
             document.addEventListener("keydown", spacebarEventListener);
@@ -352,14 +325,14 @@ const changeState = (newState) => {
             break;
         case gameState.FALLING:
             yVelocity = -0.5;
-            yAcceleration = gravity;            
+            yAcceleration = bird.gravity;            
             //document.addEventListener("keydown", fallingEventListener);
             document.addEventListener("keydown", spacebarEventListener);
             document.addEventListener("mousedown", mousedownEventListener);
             document.addEventListener("touchstart", touchstartEventListener);
             break;
         case gameState.MIDAIR:
-            yAcceleration = gravity;
+            yAcceleration = bird.gravity;
             //document.addEventListener("keydown", midairEventListener);
             document.addEventListener("keydown", spacebarEventListener);
             document.addEventListener("mousedown", mousedownEventListener);
@@ -371,8 +344,8 @@ const changeState = (newState) => {
             xVelocity = 0;
             yVelocity = 0;
 
-            let msg = "Game over!<br>Your hit the duck " + getScoreFromPos(xPos) + "m away.";            
-            if(sessionHighScore === getScoreFromPos(xPos)) {
+            let msg = "Game over!<br><br>Your hit the duck <b>" + getScoreFromPos(xPos) + "</b> meters away.";            
+            if(sessionHighScore === getScoreFromPos(xPos) && sessionHighScore !== 0) {
                 msg += "<br><br>That's a new record!"
             }
             gameOverMsg.innerHTML = msg;
@@ -386,15 +359,15 @@ const changeState = (newState) => {
 }
 
 function loadAssets() {
-    mountainImg.src = "img/quackWhacker/mountain.png";
-    duckIdle.src = "img/quackWhacker/DuckIdle.png";
-    duckWingUp.src = "img/quackWhacker/DuckWingUp.png";
-    duckWingDown.src = "img/quackWhacker/DuckWingDown.png";
-    duckZoomin.src = "img/quackWhacker/DuckZoomin.png";
-    treeImg.src = "img/quackWhacker/Tree.png";
-    cloudImg.src = "img/quackWhacker/Clouds.png";
-    batterStartImg.src = "img/quackWhacker/BatterStart.png";
-    batterSwingingImg.src = "img/quackWhacker/BatterSwinging.png";
+    mountainImg.src = mountainImgSrc;
+    duckIdle.src = duckIdleSrc;
+    duckWingUp.src = duckWingUpSrc;
+    duckWingDown.src = duckWingDownSrc;
+    duckZoomin.src = duckZoominSrc;
+    treeImg.src = treeImgSrc;
+    cloudImg.src = cloudImgSrc;
+    batterStartImg.src = batterStartImgSrc;
+    batterSwingingImg.src = batterSwingingImgSrc;
 
     mountainImg.onload = () => {
         mountainPattern = ctx.createPattern(mountainImg, "repeat");
@@ -404,7 +377,7 @@ function loadAssets() {
     }
 }
 
-function init() {
+function initGame() {
     yMultiplier = 1;
     keyPressed = false;
     newKeyInput = false;
@@ -422,45 +395,38 @@ function init() {
     });
     document.addEventListener("contextmenu", (e) => {
         e.preventDefault();
-    });
-    document.querySelector('#playAgain').addEventListener("click", (e) => {
-        changeState(gameState.START);
-    });
-    gameStartScreen.addEventListener("keydown", (e) => {
-        gameStartScreen.style.display = "none";        
-    });
-    gameStartScreen.addEventListener("click", (e) => {
-        gameStartScreen.style.display = "none";
-    });
+    });    
     
     changeState(gameState.START);
 }
 
-const gameLoop = () => {
-    updateCurrentPosition();
+const gameLoop = () => {    
 
     switch(currentGameState) {
+        case gameState.MENU:
+            drawMenu();
+            break;
         case gameState.START:
+            updateCurrentPosition();
             startLoop();
+            drawScene();
             break;
         case gameState.FALLING:
+            updateCurrentPosition();
             fallingLoop();
+            drawScene();
             break;
         case gameState.MIDAIR:
+            updateCurrentPosition();
             midairLoop();
+            drawScene();
             break;
         case gameState.GAME_OVER:
+            updateCurrentPosition();
             gameOverLoop();
+            drawScene();
             break;
     }
-
-	drawScene();
+	
 	requestAnimationFrame(gameLoop);
 }
-
-Promise.all([
-    loadAssets(),
-    init()
-]).then(() => {
-    requestAnimationFrame(gameLoop);
-});
