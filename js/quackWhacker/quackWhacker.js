@@ -2,10 +2,6 @@
 var mountainPattern;
 var cloudPattern;
 var mountainImg = new Image();
-var duckIdle = new Image();
-var duckWingUp = new Image();
-var duckWingDown = new Image();
-var duckZoomin = new Image();
 var treeImg = new Image();
 var cloudImg = new Image();
 var batterStartImg = new Image();
@@ -240,19 +236,19 @@ const drawScene = () => {
         ctx.drawImage(batterStartImg, 0, 0, 200, 200, xPosBatter - 164, groundLevel - 200, 200, 200);
     }    
 
-    // Draw duck    
+    // Draw bird
     ctx.translate(xPos, yPos);
     ctx.rotate(birdAngle);    
     if(currentGameState === gameState.MIDAIR) {        
         if(yMultiplier !== 1) {
-            ctx.drawImage(duckZoomin, 0, 0, 64, 32, -64, -32, 64, 32);
+            ctx.drawImage(bird.imgZoomin, 0, 0, 64, 32, -64, -32, 64, 32);
         } else if(lastUpdateTime.getMilliseconds() % 100 > 50) {
-            ctx.drawImage(duckWingUp, 0, 0, 64, 32, -64, -32, 64, 32);
+            ctx.drawImage(bird.imgWingUp, 0, 0, 64, 32, -64, -32, 64, 32);
         } else {
-            ctx.drawImage(duckWingDown, 0, 0, 64, 32, -64, -32, 64, 32);
+            ctx.drawImage(bird.imgWingDown, 0, 0, 64, 32, -64, -32, 64, 32);
         }
     } else {
-        ctx.drawImage(duckIdle, 0, 0, 64, 32, -64, -32, 64, 32);
+        ctx.drawImage(bird.imgIdle, 0, 0, 64, 32, -64, -32, 64, 32);
     }
 
     // Draw angle indicator
@@ -266,7 +262,7 @@ const drawScene = () => {
     ctx.translate(-xPos, -yPos);
 
     // Draw high score
-    ctx.font = "20px Verdana";
+    ctx.font = "20px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("High score: " + sessionHighScore + " m", cameraX + 20, cameraY + wHeight - 20);
 
@@ -312,10 +308,11 @@ const changeState = (newState) => {
             yPos = yPosStart;
             batSwung = false;
             xVelocity = 0;
-            yVelocity = 0;
+            yVelocity = 0;            
             xAcceleration = 0;
             yAcceleration = 0;
-            birdAngle = 0;            
+            birdAngle = 0;
+            yMultiplier = 1;
             jumpsRemaining = bird.maxJumps;
             //document.addEventListener("keydown", startEventListener);
             gameOverScreen.style.display = "none";
@@ -364,6 +361,12 @@ function loadAssets() {
     duckWingUp.src = duckWingUpSrc;
     duckWingDown.src = duckWingDownSrc;
     duckZoomin.src = duckZoominSrc;
+
+    eagleIdle.src = eagleIdleSrc;
+    eagleWingUp.src = eagleWingUpSrc;
+    eagleWingDown.src = eagleWingDownSrc;
+    eagleZoomin.src = eagleZoominSrc;
+
     treeImg.src = treeImgSrc;
     cloudImg.src = cloudImgSrc;
     batterStartImg.src = batterStartImgSrc;

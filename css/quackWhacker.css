@@ -54,8 +54,7 @@ canvas {
 button {
     background-color: transparent;
     width: 250px;
-    border: solid;
-    border-width: 1px;
+    border: solid 1px;
     padding: 8px 32px;
     text-align: center;
     display: inline-block;

@@ -6,6 +6,10 @@ duckIdleSrc = "img/quackWhacker/DuckIdle.png";
 duckWingUpSrc = "img/quackWhacker/DuckWingUp.png";
 duckWingDownSrc = "img/quackWhacker/DuckWingDown.png";
 duckZoominSrc = "img/quackWhacker/DuckZoomin.png";
+eagleIdleSrc = "img/quackWhacker/EagleIdle.png";
+eagleWingUpSrc = "img/quackWhacker/EagleWingUp.png";
+eagleWingDownSrc = "img/quackWhacker/EagleWingDown.png";
+eagleZoominSrc = "img/quackWhacker/EagleZoomin.png";
 treeImgSrc = "img/quackWhacker/Tree.png";
 cloudImgSrc = "img/quackWhacker/Clouds.png";
 batterStartImgSrc = "img/quackWhacker/BatterStart.png";
@@ -27,17 +31,31 @@ const xPosBatter = -40;
 const yPosBatter = groundLevel - 120;
 const batterPower = 3;
 const battingWindow = 100;
+var duckIdle = new Image();
+var duckWingUp = new Image();
+var duckWingDown = new Image();
+var duckZoomin = new Image();
+var eagleIdle = new Image();
+var eagleWingUp = new Image();
+var eagleWingDown = new Image();
+var eagleZoomin = new Image();
 
 class Bird {
-    constructor(gravity, groundFriction, jumpHeightSteps, fallingStateSpeed, maxJumps, birdYMultiplier) {
+    constructor(gravity, groundFriction, jumpHeightSteps, fallingStateSpeed, maxJumps, birdYMultiplier, imgIdle, imgWingUp, imgWingDown, imgZoomin) {
         this.gravity = gravity;
         this.groundFriction = groundFriction;
         this.jumpHeightSteps = jumpHeightSteps;
         this.fallingStateSpeed = fallingStateSpeed;
         this.maxJumps = maxJumps;
         this.birdYMultiplier = birdYMultiplier;
+
+        this.imgIdle = imgIdle;
+        this.imgWingUp = imgWingUp;
+        this.imgWingDown = imgWingDown;
+        this.imgZoomin = imgZoomin;
     }
 }
 
-const duck = new Bird(0.002, -0.01, -0.1, 0.5, 5, 2.2);
-const eagle = new Bird(0.001, -0.01, -0.1, 0.5, 5, 2.2);
+const duck = new Bird(0.002, -0.01, -0.1, 0.5, 5, 2.2, duckIdle, duckWingUp, duckWingDown, duckZoomin);
+const eagle = new Bird(0.0015, -0.02, -0.1, 0.5, 5, 2.5, eagleIdle, eagleWingUp, eagleWingDown, eagleZoomin);
+const penguin = new Bird(0.003, -0.001, -0.15, 0.7, 6, 1.75, duckIdle, duckWingUp, duckWingDown, duckZoomin);
