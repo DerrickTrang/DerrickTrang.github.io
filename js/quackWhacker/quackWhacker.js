@@ -367,6 +367,11 @@ function loadAssets() {
     eagleWingDown.src = eagleWingDownSrc;
     eagleZoomin.src = eagleZoominSrc;
 
+    penguinIdle.src = penguinIdleSrc;
+    penguinWingUp.src = penguinWingUpSrc;
+    penguinWingDown.src = penguinWingDownSrc;
+    penguinZoomin.src = penguinZoominSrc;
+
     treeImg.src = treeImgSrc;
     cloudImg.src = cloudImgSrc;
     batterStartImg.src = batterStartImgSrc;

@@ -10,6 +10,10 @@ eagleIdleSrc = "img/quackWhacker/EagleIdle.png";
 eagleWingUpSrc = "img/quackWhacker/EagleWingUp.png";
 eagleWingDownSrc = "img/quackWhacker/EagleWingDown.png";
 eagleZoominSrc = "img/quackWhacker/EagleZoomin.png";
+penguinIdleSrc = "img/quackWhacker/PenguinIdle.png";
+penguinWingUpSrc = "img/quackWhacker/PenguinWingUp.png";
+penguinWingDownSrc = "img/quackWhacker/PenguinWingDown.png";
+penguinZoominSrc = "img/quackWhacker/PenguinZoomin.png";
 treeImgSrc = "img/quackWhacker/Tree.png";
 cloudImgSrc = "img/quackWhacker/Clouds.png";
 batterStartImgSrc = "img/quackWhacker/BatterStart.png";
@@ -39,6 +43,10 @@ var eagleIdle = new Image();
 var eagleWingUp = new Image();
 var eagleWingDown = new Image();
 var eagleZoomin = new Image();
+var penguinIdle = new Image();
+var penguinWingUp = new Image();
+var penguinWingDown = new Image();
+var penguinZoomin = new Image();
 
 class Bird {
     constructor(gravity, groundFriction, jumpHeightSteps, fallingStateSpeed, maxJumps, birdYMultiplier, imgIdle, imgWingUp, imgWingDown, imgZoomin) {
@@ -58,4 +66,4 @@ class Bird {
 
 const duck = new Bird(0.002, -0.01, -0.1, 0.5, 5, 2.2, duckIdle, duckWingUp, duckWingDown, duckZoomin);
 const eagle = new Bird(0.0015, -0.02, -0.1, 0.5, 5, 2.5, eagleIdle, eagleWingUp, eagleWingDown, eagleZoomin);
-const penguin = new Bird(0.003, -0.001, -0.15, 0.7, 6, 1.75, duckIdle, duckWingUp, duckWingDown, duckZoomin);
+const penguin = new Bird(0.003, -0.001, -0.15, 0.7, 6, 1.75, penguinIdle, penguinWingUp, penguinWingDown, penguinZoomin);

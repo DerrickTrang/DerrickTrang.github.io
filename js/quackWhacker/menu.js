@@ -30,7 +30,7 @@ const changeBird = (birdName) => {
             break;
         case "Penguin":
             bird = penguin;
-            birdImgSrc = duckIdleSrc;
+            birdImgSrc = penguinIdleSrc;
             break;
     }    
     birdSelectionBtn.innerHTML = "Selected Bird ("+ birdName +")<br><br><img id='selectedBird' src=" + birdImgSrc + ">";
