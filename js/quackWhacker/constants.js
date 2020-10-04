@@ -49,7 +49,7 @@ var penguinWingDown = new Image();
 var penguinZoomin = new Image();
 
 class Bird {
-    constructor(gravity, groundFriction, jumpHeightSteps, fallingStateSpeed, maxJumps, birdYMultiplier, imgIdle, imgWingUp, imgWingDown, imgZoomin) {
+    constructor(gravity, groundFriction, jumpHeightSteps, fallingStateSpeed, maxJumps, birdYMultiplier, imgIdle, imgWingUp, imgWingDown, imgZoomin, name) {
         this.gravity = gravity;
         this.groundFriction = groundFriction;
         this.jumpHeightSteps = jumpHeightSteps;
@@ -61,9 +61,10 @@ class Bird {
         this.imgWingUp = imgWingUp;
         this.imgWingDown = imgWingDown;
         this.imgZoomin = imgZoomin;
+        this.name = name;
     }
 }
 
-const duck = new Bird(0.002, -0.01, -0.1, 0.5, 5, 2.2, duckIdle, duckWingUp, duckWingDown, duckZoomin);
-const eagle = new Bird(0.0015, -0.02, -0.1, 0.5, 5, 2.5, eagleIdle, eagleWingUp, eagleWingDown, eagleZoomin);
-const penguin = new Bird(0.003, -0.001, -0.15, 0.7, 6, 1.75, penguinIdle, penguinWingUp, penguinWingDown, penguinZoomin);
+const duck = new Bird(0.002, -0.01, -0.1, 0.5, 5, 2.2, duckIdle, duckWingUp, duckWingDown, duckZoomin, "duck");
+const eagle = new Bird(0.0015, -0.02, -0.1, 0.5, 5, 2.5, eagleIdle, eagleWingUp, eagleWingDown, eagleZoomin, "eagle");
+const penguin = new Bird(0.003, -0.001, -0.15, 0.7, 6, 1.75, penguinIdle, penguinWingUp, penguinWingDown, penguinZoomin, "penguin");

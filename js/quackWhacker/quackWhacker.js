@@ -341,7 +341,7 @@ const changeState = (newState) => {
             xVelocity = 0;
             yVelocity = 0;
 
-            let msg = "Game over!<br><br>Your hit the duck <b>" + getScoreFromPos(xPos) + "</b> meters away.";            
+            let msg = "Game over!<br><br>Your hit the " + bird.name + " <b>" + getScoreFromPos(xPos) + "</b> meters away.";            
             if(sessionHighScore === getScoreFromPos(xPos) && sessionHighScore !== 0) {
                 msg += "<br><br>That's a new record!"
             }
