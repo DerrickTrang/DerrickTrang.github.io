@@ -1,2 +1,2 @@
 # DerrickTrang.github.io
-My personal website at <a href="derricktrang.com">derricktrang.com</a>
+My personal website at <a href="https://www.derricktrang.com">derricktrang.com</a>
