@@ -3,6 +3,7 @@
 <head>
     <title>Derrick Trang's .com - Projects</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/projects.css" />
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicons/favicon.ico">
@@ -44,9 +45,9 @@
                     </div>
                     <div class="project-desc">
                         <div class="project-desc-padded">
-                        <i>"America's pastime...but better!"</i><br>
+                        Whack a bird as far as you can with a baseball bat!<br>
                         <br>
-                        Inspired by the classic Kass Basher game on <a href="http://www.neopets.com">neopets.com</a>. Use this to show your friends how good you are at (virtual) sports!<br>
+                        Inspired by the classic Kass Basher game on <a href="http://www.neopets.com">neopets.com</a>. Play this and show your friends how good you are at (virtual) sports!<br>
                         <br>
                         <a href="https://quackwhacker.herokuapp.com" class="project-button">View Project</a>
                     </div>
@@ -58,23 +59,21 @@
                     </div>
                     <div class="project-desc">
                         <div class="project-desc-padded">
-                        <i>"A sand timer for the modern man!"</i><br>
-                        <br>
                         This simulates an hourglass that can be flipped, tracking the time remaining on either side.<br>
                         <br>
-                        Created specifically for a variation of Codenames we played. This might just be the only "flippable" Javascript hourglass that exists on a web browser. Feel free to send me a condescending message if you can find a different one.<br>
+                        Created specifically for a variation of Codenames we played. This might be the only "flippable" Javascript hourglass that exists on a web browser. Please send me a message if you can find a different one.<br>
                         <br>
                         <a href="hourglass.html" class="project-button">View Project</a>
                         </div>
                     </div>
-                </div>                    
+                </div>
                 <div class="project-item">
                     <div class="project-header" id="pixelBounceThree">
                         <div class="project-header-arrow">></div>&emsp;Pixel Bounce 3D
                     </div>
                     <div class="project-desc">
                         <div class="project-desc-padded">
-                        <i>"Like the original, but with another dimension!"</i><br>                            
+                        A simulation of small cubes bouncing around inside of a bigger cube.<br>
                         <br>
                         Made with <a href="https://threejs.org/">three.js</a>, a Javascript library for rendering 3D graphics with WebGL.<br>
                         <br>
@@ -88,23 +87,9 @@
                     </div>
                     <div class="project-desc">
                         <div class="project-desc-padded">
-                        <i>"Combining colors, angles, and RaNdOmNeSs!"</i><br>
-                        <br>
-                        A learning experience on how to draw something on HTML canvas element.<br>
+                        A simulation of small pixels bouncing around the screen.<br>
                         <br>
                         <a href="pixelBounce.html" class="project-button">View Project</a>
-                    </div>
-                    </div>
-                </div>
-                <div class="project-item">
-                    <div class="project-header" id="lightbulb">
-                        <div class="project-header-arrow">></div>&emsp;Lightbulb
-                    </div>
-                    <div class="project-desc">
-                        <div class="project-desc-padded">
-                        The first thing I created with Javascript. I'm keeping this here like a parent would keep their kid's first art piece on the fridge.<br>
-                        <br>
-                        <a href="lightbulb.html" class="project-button">View Project</a>
                     </div>
                     </div>
                 </div>
@@ -113,11 +98,11 @@
     </div>
 
     <!-- Used to fade entire page in once loaded -->
-    <div class="overlay"></div>
+    <div class="overlay-on"></div>
 
     <!-- Load scripts at the end of a page -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/navigation.js"></script>    
+    <script src="js/navigation.js" id="nav-script"></script>
+    <script src="js/projects.js" id ="projects-script"></script>
+
 </body>
 </html>

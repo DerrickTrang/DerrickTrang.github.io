@@ -1,87 +1,83 @@
-var homeURL = "/index.html";
-var projectsURL = "/projects.html";
+const homeURL = "/";
+const projectsURL = "/projects.html";
 
-function loadContent(url){
-    var request = new XMLHttpRequest();
+const loadContent = async (url) => {
 
-    request.onreadystatechange = function() {
-        if(request.readyState == 4) {
+    // Retrieve and store content
+    const resp = await fetch(url);
+    const data = await resp.text();
+    const respDoc = document.implementation.createHTMLDocument();
+    respDoc.body.innerHTML = data;
 
-            console.log("Response received: begin");
-            // Retrieve and store response
-            var resp = document.implementation.createHTMLDocument();
-            resp.body.innerHTML = request.responseText;
+    // Fade out existing content (fade out handled by css)
+    const body = document.getElementById('body-content');
+    body.style.opacity = 0;
+    setTimeout(() => {
 
-            // Add stylesheets from response to current page head (may be a better way to handle all this?)
-            var currentHead = document.getElementsByTagName('head')[0];                        
-            var responseLinks = resp.getElementsByTagName('link');
-            for (i = 0; i < responseLinks.length; i++) {
-                // If stylesheet doesn't already exist, add it
-                if (jQuery("link[href=\"" + responseLinks[i].getAttribute("href") + "\"]").length == 0) {
-                    currentHead.appendChild(responseLinks[i]);
-                }
-            }
+        // Replace current page body title/content with response body title/content
+        document.title = respDoc.getElementsByTagName("title")[0].innerHTML;
+        body.innerHTML = respDoc.getElementById("body-content").innerHTML;
 
-            // Fade out existing stuff with jquery
-            jQuery("#body-content").fadeOut(200, function() {
-                // Replace current page body title/content with response body title/content            
-                document.title = resp.getElementsByTagName("title")[0].innerHTML;
-                
-                document.getElementById("body-content").innerHTML = resp.getElementById("body-content").innerHTML;                         
+        // Remove scripts
+        let oldScripts = document.getElementsByTagName("script");
+        for(let i of Array.from(oldScripts)) {
+            let script = document.getElementById(i.id);
+            document.body.removeChild(script);
+        }
 
-                // Fade new stuff in
-                jQuery("#body-content").fadeIn(200, () => {
-                    makeProjectsWork();
-                });
-            });
+        // Re-add scripts (which re-runs them)
+        let newScripts = respDoc.getElementsByTagName("script");
+        for(let i of Array.from(newScripts)) {
 
-            // Highlight navbar button for selected page
-            let navButtons = document.getElementsByClassName("navbar-button-selected");
-            for(i = 0; i < navButtons.length; i++) {
-                navButtons[i].classList.remove("navbar-button-selected");
-            }
+            // Don't re-run navbar script since we're not replacing that content
+            if(i.id === "nav-script") continue;
 
-            let responseURL = "/" + request.responseURL.replace(/^.*[\\/]/, "");
-            if(responseURL == homeURL) {
-                document.getElementById("navbar-home").classList.add("navbar-button-selected");
-            } else if(responseURL = projectsURL) {
-                document.getElementById("navbar-projects").classList.add("navbar-button-selected"); 
-            }
+            let newScript = document.createElement('script')
+            newScript.src = i.src;
+            newScript.id = i.id;
+            document.body.appendChild(newScript);
+        }
 
-            console.log("Response received: end");
-        }        
+        // Fade in new content (fade handled by css)
+        body.style.opacity = 100;
+
+    }, 150);
+
+    // Highlight navbar button for selected page
+    const navButtons = document.getElementsByClassName("navbar-button-selected");
+    for(let button of navButtons) {
+        button.classList.remove("navbar-button-selected");
     }
 
-    console.log("URL: " + url);
-    request.open("GET", url);
-    request.send();
+    if(url === homeURL) {
+        document.getElementById("navbar-home").classList.add("navbar-button-selected");
+    } else if(url === projectsURL) {
+        document.getElementById("navbar-projects").classList.add("navbar-button-selected");
+    }
 }
 
-document.getElementById("navbar-home").addEventListener("click", function() {    
-    var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
-    if(currentPath != homeURL && currentPath != "/") {
-        history.pushState({ urlPath: homeURL}, "", "/");
+document.getElementById("navbar-home").addEventListener("click", () => {
+    const currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
+    if(currentPath !== homeURL) {
+        history.pushState({ urlPath: homeURL}, "", homeURL);
         loadContent(homeURL);
-    }    
+    }
 });
 
-document.getElementById("navbar-projects").addEventListener("click", function() {
-    var currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
-    if(currentPath != projectsURL) {
+document.getElementById("navbar-projects").addEventListener("click", () => {
+    const currentPath = "/" + location.pathname.replace(/^.*[\\/]/, "");
+    if(currentPath !== projectsURL) {
         history.pushState({ urlPath: projectsURL}, "", projectsURL);
         loadContent(projectsURL);
     }
 });
 
-window.onpopstate = function(event) {
-    var path = location.pathname.replace(/^.*[\\/]/, "");
-    if (!path) {
-        path = homeURL;
-    }
+window.onpopstate = () => {
+    let path = location.pathname.replace(/^.*[\\/]/, "");
     loadContent(path);
 }
 
-window.onload = function() {
-    // Fade entire page in once loaded by hiding overlay div
-    jQuery(".overlay").fadeOut(500, null);
+window.onload = () => {
+    // Fade entire page in once loaded by turning overlay off
+    document.querySelector('.overlay-on').className = "overlay-off";
 }

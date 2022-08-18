@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 }
 
 .project-item, .project-item-selected {
@@ -15,11 +15,11 @@
     border: solid 1px;
 }
 
-.project-item {    
+.project-item {
     border-color: white;
 }
 
-.project-item-selected {    
+.project-item-selected {
     border-color: turquoise;
 }
 
@@ -27,13 +27,13 @@
     border-color: turquoise;
 }
 
-.project-header, .project-header-selected {    
+.project-header, .project-header-selected {
     height: auto;
     padding-left: 1em;
     padding-right: 1em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    transition: background-color linear 150ms;    
+    transition: background-color linear 150ms;
     display: flex;
     flex-direction: row;
     user-select: none;
@@ -63,7 +63,7 @@
 
 .project-desc, .project-desc-selected {
     padding-left: 1em;
-    padding-right: 1em;    
+    padding-right: 1em;
     overflow: hidden;
 }
 
@@ -73,8 +73,8 @@
 }
 
 .project-desc-selected {
-    max-height: 400px;    
-    transition: max-height 320ms ease-in;    
+    max-height: 400px;
+    transition: max-height 320ms ease-in;
 }
 
 .project-desc-padded {
@@ -94,4 +94,8 @@
 .project-button:hover {
     background-color: turquoise;
     transition: background-color linear 150ms;
+}
+
+a {
+    text-decoration: none;
 }
